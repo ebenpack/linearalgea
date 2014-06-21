@@ -228,22 +228,6 @@ Matrix.rotation = function(pitch, yaw, roll){
     return Matrix.rotationX(roll).multiply(Matrix.rotationZ(yaw)).multiply(Matrix.rotationY(pitch));
 };
 /**
- * Constructs a scaling matrix from x, y, and z scalars
- * @method
- * @static
- * @param {number} xscale
- * @param {number} yscale
- * @param {number} zscale
- * @return {Matrix}
- */
-Matrix.translation = function(xscale, yscale, zscale){
-    var translation_matrix = Matrix.identity();
-    translation_matrix.m[0] = xscale;
-    translation_matrix.m[5] = yscale;
-    translation_matrix.m[1] = zscale;
-    return translation_matrix;
-};
-/**
  * Constructs a translation matrix from x, y, and z distances
  * @method
  * @static
