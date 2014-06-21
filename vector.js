@@ -46,7 +46,12 @@ Vector.prototype.equal = function(vector){
 Vector.prototype.angle = function(vector){
     var a = this.normalize();
     var b = vector.normalize();
-    return Math.acos( a.dot(b) / (a.magnitude() * b.magnitude()) );
+    var amag = a.magnitude();
+    var bmag = b.magnitude();
+    if (amag === 0 || bmag === 0){
+        return 0;
+    }
+    return Math.acos( a.dot(b) / (amag * bmag ));
 };
 /**
  * Find magnitude of a vector.
@@ -95,7 +100,7 @@ Vector.prototype.cross = function(vector){
 Vector.prototype.normalize = function(){
     var magnitude = this.magnitude();
     if (magnitude === 0) {
-        throw 'Zero Division Error';
+        return this;
     }
     return new Vector(this.x / magnitude, this.y / magnitude, this.z / magnitude);
 };
