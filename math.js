@@ -1,5 +1,4 @@
 var Vector = require('./vector.js');
-var Vertex = require('./vertex.js');
 var Mesh = require('./mesh.js');
 var Matrix = require('./matrix.js');
 var Face = require('./face.js');
