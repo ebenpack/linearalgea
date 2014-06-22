@@ -22,9 +22,9 @@ function Mesh(name, vertices, faces){
  */
 Mesh.prototype.normal = function(index){
     var face = this.faces[index].face;
-    var a = this.vertices[face[0]].vector;
-    var b = this.vertices[face[1]].vector;
-    var c = this.vertices[face[2]].vector;
+    var a = this.vertices[face[0]];
+    var b = this.vertices[face[1]];
+    var c = this.vertices[face[2]];
     var side1 = b.subtract(a);
     var side2 = c.subtract(a);
     var norm = side1.cross(side2);
@@ -41,9 +41,9 @@ Mesh.prototype.normal = function(index){
  */
 Mesh.prototype.centroid = function(index){
     var face = this.faces[index].face;
-    var a = this.vertices[face[0]].vector;
-    var b = this.vertices[face[1]].vector;
-    var c = this.vertices[face[2]].vector;
+    var a = this.vertices[face[0]];
+    var b = this.vertices[face[1]];
+    var c = this.vertices[face[2]];
     return new Vector((a.x + b.x + c.x) / 3, (a.y + b.y + c.y) / 3, (a.z + b.z + c.z) / 3);
 };
 
