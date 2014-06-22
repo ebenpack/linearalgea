@@ -6,7 +6,6 @@ var Face = require('./face.js');
 var math = Object.create(null);
 
 math.Vector = Vector;
-math.Vertex = Vertex;
 math.Mesh = Mesh;
 math.Matrix = Matrix;
 math.Face = Face;
