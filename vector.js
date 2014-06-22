@@ -54,6 +54,22 @@ Vector.prototype.angle = function(vector){
     return Math.acos( a.dot(b) / (amag * bmag ));
 };
 /**
+ * Find the cos of the angle between two vectors.
+ * @method
+ * @param {Vector} vector
+ * @return {number}
+ */
+Vector.prototype.cosAngle = function(vector){
+    var a = this.normalize();
+    var b = vector.normalize();
+    var amag = a.magnitude();
+    var bmag = b.magnitude();
+    if (amag === 0 || bmag === 0){
+        return 0;
+    }
+    return a.dot(b) / (amag * bmag );
+};
+/**
  * Find magnitude of a vector.
  * @method
  * @return {number}
