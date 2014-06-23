@@ -92,7 +92,7 @@ Matrix.prototype.multiply = function(matrix){
  * @param {number} scalar
  * @return {Matrix}
  */
-Matrix.prototype.negate = function(matrix){
+Matrix.prototype.negate = function(){
     var new_matrix = new Matrix();
     for (var i = 0, len = this.matrix.length; i < len; i++){
         this.matrix.m[i] = -this.matrix.m[i];

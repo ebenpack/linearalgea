@@ -1,5 +1,4 @@
 var Color = require('../utility/color.js');
-var Vector = require('./vector.js');
 
 /**
  * A 3D triangle
