@@ -1,4 +1,5 @@
 var Vector = require('./vector.js');
+var Face = require('./face.js');
 
 /**
  * @constructor
@@ -45,6 +46,18 @@ Mesh.prototype.centroid = function(index){
     var b = this.vertices[face[1]];
     var c = this.vertices[face[2]];
     return new Vector((a.x + b.x + c.x) / 3, (a.y + b.y + c.y) / 3, (a.z + b.z + c.z) / 3);
+};
+Mesh.fromJSON = function(json){
+    var mesh = new Mesh(json.name, [], []);
+    for (var i = 0, len = json.vertices.length; i < len; i++){
+        var vertex = json.vertices[i];
+        mesh.vertices.push(new Vector(vertex[0], vertex[1], vertex[2]));
+    }
+    for (var j = 0, ln = json.faces.length; j < ln; j++){
+        var face = json.faces[j];
+        mesh.faces.push(new Face(face.face[0], face.face[1], face.face[2], face.color));
+    }
+    return mesh;
 };
 
 module.exports = Mesh;
