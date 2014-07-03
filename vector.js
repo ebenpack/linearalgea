@@ -1,6 +1,5 @@
 /**
  * @constructor
- * @this {Vector}
  * @param {number} x
  * @param {number} y
  * @param {number} z

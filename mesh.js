@@ -3,7 +3,6 @@ var Face = require('./face.js');
 
 /**
  * @constructor
- * @this {Mesh}
  * @param {string} name
  * @param {Array.<Vertex>} vertices
  * @param {Array.<{edge: Array.<number>, color: string}>} edges

@@ -1,7 +1,6 @@
 /** 
  * 4x4 matrix.
  * @constructor
- * @this {Matrix}
  */
 function Matrix(){
     /** @type {Array.<number>} */
