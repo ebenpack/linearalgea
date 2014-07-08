@@ -5,9 +5,15 @@
  * @param {number} z
  */
 function Vector(x, y, z){
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    if (typeof x === 'undefined' ||
+        typeof y === 'undefined' ||
+        typeof z === 'undefined'){
+        throw new Error('Insufficient arguments.');
+    } else {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 }
 /**
  * Add vector to self.
@@ -50,7 +56,10 @@ Vector.prototype.angle = function(vector){
     if (amag === 0 || bmag === 0){
         return 0;
     }
-    return Math.acos( a.dot(b) / (amag * bmag ));
+    var theta = a.dot(b) / (amag * bmag );
+    if (theta < -1) {theta = -1;}
+    if (theta > 1) {theta = 1;}
+    return Math.acos(theta);
 };
 /**
  * Find the cos of the angle between two vectors.
@@ -66,7 +75,10 @@ Vector.prototype.cosAngle = function(vector){
     if (amag === 0 || bmag === 0){
         return 0;
     }
-    return a.dot(b) / (amag * bmag );
+    var theta = a.dot(b) / (amag * bmag )
+        if (theta < -1) {theta = -1;}
+    if (theta > 1) {theta = 1;}
+    return theta;
 };
 /**
  * Find magnitude of a vector.
