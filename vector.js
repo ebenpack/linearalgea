@@ -75,8 +75,8 @@ Vector.prototype.cosAngle = function(vector){
     if (amag === 0 || bmag === 0){
         return 0;
     }
-    var theta = a.dot(b) / (amag * bmag )
-        if (theta < -1) {theta = -1;}
+    var theta = a.dot(b) / (amag * bmag );
+    if (theta < -1) {theta = -1;}
     if (theta > 1) {theta = 1;}
     return theta;
 };
@@ -164,6 +164,19 @@ Vector.prototype.scalarProjection = function(vector){
     return this.dot(vector) / vector.magnitude();
 };
 /**
+ * Perform linear tranformation on self.
+ * @method
+ * @param {Matrix} transform_matrix
+ * @return {Vector}
+ */
+Vector.prototype.transform = function(transform_matrix){
+    var x = (this.x * transform_matrix[0]) + (this.y * transform_matrix[4]) + (this.z * transform_matrix[8]) + transform_matrix[12];
+    var y = (this.x * transform_matrix[1]) + (this.y * transform_matrix[5]) + (this.z * transform_matrix[9]) + transform_matrix[13];
+    var z = (this.x * transform_matrix[2]) + (this.y * transform_matrix[6]) + (this.z * transform_matrix[10]) + transform_matrix[14];
+    var w = (this.x * transform_matrix[3]) + (this.y * transform_matrix[7]) + (this.z * transform_matrix[11]) + transform_matrix[15];
+    return new Vector(x / w, y / w, z / w);
+};
+/**
  * Rotate self by theta around axis
  * @method
  * @param {Vector} axis
@@ -185,19 +198,6 @@ Vector.prototype.rotate = function(axis, theta){
     var y = (((xy*cos1)+(uz*sin)) * this.x) + ((cos+((uy*uy)*cos1)) * this.y) + (((yz*cos1)-(ux*sin)) * this.z);
     var z = (((xz*cos1)-(uy*sin)) * this.x) + (((yz*cos1)+(ux*sin)) * this.y) + ((cos + ((ux*ux)*cos1)) * this.z);
     return new Vector(x, y, z);
-};
-/**
- * Perform linear tranformation on self.
- * @method
- * @param {Matrix} transform_matrix
- * @return {Vector}
- */
-Vector.prototype.transform = function(transform_matrix){
-     var x = (this.x * transform_matrix[0]) + (this.y * transform_matrix[4]) + (this.z * transform_matrix[8]) + transform_matrix[12];
-    var y = (this.x * transform_matrix[1]) + (this.y * transform_matrix[5]) + (this.z * transform_matrix[9]) + transform_matrix[13];
-    var z = (this.x * transform_matrix[2]) + (this.y * transform_matrix[6]) + (this.z * transform_matrix[10]) + transform_matrix[14];
-    var w = (this.x * transform_matrix[3]) + (this.y * transform_matrix[7]) + (this.z * transform_matrix[11]) + transform_matrix[15];
-    return new Vector(x / w, y / w, z / w);
 };
 /**
  * Rotate self by theta around x-axis
