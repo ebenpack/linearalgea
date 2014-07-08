@@ -58,7 +58,7 @@ Matrix.prototype.subtract = function(matrix){
 Matrix.prototype.multiplyScalar = function(scalar){
     var new_matrix = new Matrix();
     for (var i = 0, len = this.length; i < len; i++){
-        this[i] = this[i] * scalar;
+        new_matrix[i] = this[i] * scalar;
     }
     return new_matrix;
 };
