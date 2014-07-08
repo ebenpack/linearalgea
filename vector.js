@@ -151,7 +151,8 @@ Vector.prototype.negate = function(){
  * @return {number}
  */
 Vector.prototype.vectorProjection = function(vector){
-    return this.magnitude() * Math.cos(this.angle(vector));
+    var mag = vector.magnitude();
+    return vector.scale(this.dot(vector) / (mag * mag));
 };
 /**
  * Project self onto vector
@@ -160,17 +161,7 @@ Vector.prototype.vectorProjection = function(vector){
  * @return {number}
  */
 Vector.prototype.scalarProjection = function(vector){
-    return this.dot(vector.normalize()) * vector.normalize;
-};
-/**
- * Comp self and vector
- * @method
- * @param {Vector} vector
- * @return {number}
- */
-Vector.prototype.component = function(vector){
-    //A.comp(B) = dot(A,norm(B))
-    return this.dot(vector) / this.magnitude();
+    return this.dot(vector) / vector.magnitude();
 };
 /**
  * Rotate self by theta around axis
