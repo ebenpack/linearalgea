@@ -4,8 +4,8 @@ var Face = require('./face.js');
 /**
  * @constructor
  * @param {string} name
- * @param {Array.<Vertex>} vertices
- * @param {Array.<{edge: Array.<number>, color: string}>} edges
+ * @param {Array.<Vector>} vertices
+ * @param {Array.<Face>} edges
  */
 function Mesh(name, vertices, faces){
     this.name = name;
