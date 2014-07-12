@@ -15,6 +15,14 @@ function Mesh(name, vertices, faces){
     this.rotation = {'yaw': 0, 'pitch': 0, 'roll': 0};
     this.scale = {'x': 1, 'y': 1, 'z': 1};
 }
+
+/**
+ * Construct a Mesh from a JSON object.
+ * @method
+ * @static
+ * @param  {{name: string, verticies: Array.<Array.<number>>, faces: {{face: Array.<number>, color: string}}}} json
+ * @return {Mesh}
+ */
 Mesh.fromJSON = function(json){
     var vertices = [];
     var faces = [];

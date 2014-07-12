@@ -1,7 +1,8 @@
-var Color = require('../utility/color.js');
+var Color = require('../utilities/color.js');
 
 /**
  * A 3D triangle
+ * @constructor
  * @param {number} a     [description]
  * @param {number} b     [description]
  * @param {number} c     [description]

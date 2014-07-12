@@ -3,7 +3,6 @@
  * @constructor
  */
 function Matrix(){
-    /** @type {Array.<number>} */
     for (var i=0; i<16; i++){
         this[i] = 0;
     }
@@ -104,7 +103,6 @@ Matrix.prototype.negate = function(){
 /**
  * Transpose self.
  * @method
- * @param {number} scalar
  * @return {Matrix}
  */
 Matrix.prototype.transpose = function(){

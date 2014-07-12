@@ -1,8 +1,9 @@
 /**
+ * 3D vector.
  * @constructor
- * @param {number} x
- * @param {number} y
- * @param {number} z
+ * @param {number} x x coordinate
+ * @param {number} y y coordinate
+ * @param {number} z z coordinate
  */
 function Vector(x, y, z){
     if (typeof x === 'undefined' ||
@@ -140,7 +141,10 @@ Vector.prototype.normalize = function(){
 Vector.prototype.scale = function(scale){
     return new Vector(this.x * scale, this.y * scale, this.z * scale);
 };
-/** @method */
+/**
+ * Negates self
+ * @return {Vector} [description]
+ */
 Vector.prototype.negate = function(){
     return new Vector(-this.x, -this.y, -this.z);
 };
