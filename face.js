@@ -3,10 +3,10 @@ var Color = require('../utilities/color.js');
 /**
  * A 3D triangle
  * @constructor
- * @param {number} a     [description]
- * @param {number} b     [description]
- * @param {number} c     [description]
- * @param {string} color [description]
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @param {string} color
  */
 function Face(a, b, c, color){
     this.face = [a, b, c];
