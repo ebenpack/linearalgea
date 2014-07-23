@@ -2,7 +2,7 @@
   "name": "linearalgea",
   "version": "0.0.1",
   "description": "Matrix and vector math library",
-  "main": "linearalgea.js",
+  "main": "build/linearalgea.js",
   "scripts": {
     "minify": "gulp compile",
     "test": "gulp test"
