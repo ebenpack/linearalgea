@@ -1,10 +1,11 @@
+var Vector = require('./vector.js');
+
 /**
  * @license
  * Copyright (c) 2014 Eben Packwood. All rights reserved.
  * MIT License
  *
  */
-
 
 /** 
  * 4x4 matrix.
@@ -49,7 +50,7 @@ Matrix.prototype.add = function(matrix){
  * @param {Matrix} matrix
  * @param {Matrix} result
  */
-Matrix.prototype.addRef = function(matrix, result){
+Matrix.prototype.addLG = function(matrix, result){
     for (var i = 0, len = this.length; i < len; i++){
         result[i] = this[i] + matrix[i];
     }
@@ -73,7 +74,7 @@ Matrix.prototype.subtract = function(matrix){
  * @param {Matrix} matrix
  * @param {Matrix} result
  */
-Matrix.prototype.subtractRef = function(matrix, result){
+Matrix.prototype.subtractLG = function(matrix, result){
     for (var i = 0, len = this.length; i < len; i++){
         result[i] = this[i] - matrix[i];
     }
@@ -97,7 +98,7 @@ Matrix.prototype.multiplyScalar = function(scalar){
  * @param {number} scalar
  * @param {Matrix} result
  */
-Matrix.prototype.multiplyScalarRef = function(scalar, result){
+Matrix.prototype.multiplyScalarLG = function(scalar, result){
     for (var i = 0, len = this.length; i < len; i++){
         result[i] = this[i] * scalar;
     }
@@ -134,7 +135,7 @@ Matrix.prototype.multiply = function(matrix){
  * @param {Matrix} matrix
  * @param {Matrix} result
  */
-Matrix.prototype.multiplyRef = function(matrix, result){
+Matrix.prototype.multiplyLG = function(matrix, result){
     result[0] = (this[0] * matrix[0]) + (this[1] * matrix[4]) + (this[2] * matrix[8]) + (this[3] * matrix[12]);
     result[1] = (this[0] * matrix[1]) + (this[1] * matrix[5]) + (this[2] * matrix[9]) + (this[3] * matrix[13]);
     result[2] = (this[0] * matrix[2]) + (this[1] * matrix[6]) + (this[2] * matrix[10]) + (this[3] * matrix[14]);
@@ -171,7 +172,7 @@ Matrix.prototype.negate = function(){
  * @param {number} scalar
  * @param {Matrix} result
  */
-Matrix.prototype.negateRef = function(result){
+Matrix.prototype.negateLG = function(result){
     for (var i = 0, len = this.length; i < len; i++){
         result[i] = -this[i];
     }
@@ -206,7 +207,7 @@ Matrix.prototype.transpose = function(){
  * @method
  * @return {Matrix}
  */
-Matrix.prototype.transposeRef = function(result){
+Matrix.prototype.transposeLG = function(result){
     result[0] = this[0];
     result[1] = this[4];
     result[2] = this[8];
@@ -260,7 +261,7 @@ Matrix.rotationX = function(theta){
  * @param {number} theta
  * @param {Matrix} result
  */
-Matrix.rotationXRef = function(theta, result){
+Matrix.rotationXLG = function(theta, result){
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
     result.empty();
@@ -297,7 +298,7 @@ Matrix.rotationY = function(theta){
  * @param {number} theta
  * @param {Matrix} result
  */
-Matrix.rotationYRef = function(theta, result){
+Matrix.rotationYLG = function(theta, result){
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
     result.empty();
@@ -334,7 +335,7 @@ Matrix.rotationZ = function(theta){
  * @param {number} theta
  * @param {Matrix} result
  */
-Matrix.rotationZRef = function(theta, result){
+Matrix.rotationZLG = function(theta, result){
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
     result.empty();
@@ -383,11 +384,10 @@ Matrix.rotationAxis = function(axis, theta){
  * @static
  * @param {Vector} axis
  * @param {number} theta
- * @param {Vector} temp_vector
  * @param {Matrix} result
  */
-Matrix.rotationAxisRef = function(axis, theta, temp_vector, result){
-    axis.normalizeRef(temp_vector);
+Matrix.rotationAxisLG = function(axis, theta, result){
+    axis.normalizeLG(temp_vector);
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
     var cos1 = 1-cos;
@@ -430,18 +430,18 @@ Matrix.rotation = function(pitch, yaw, roll){
  * @param {number} roll
  * @param {Matrix} result
  */
-Matrix.rotationRef = function(pitch, yaw, roll, result){
+Matrix.rotationLG = function(pitch, yaw, roll, result){
     // TODO: Can I get away with using fewer temporary matrices?
     temp_matrix1.empty();
     temp_matrix2.empty();
     temp_matrix3.empty();
     temp_matrix4.empty();
     result.empty();    
-    Matrix.rotationXRef(roll, temp_matrix1);
-    Matrix.rotationZRef(yaw, temp_matrix2);
-    Matrix.rotationYRef(pitch, temp_matrix3);
-    temp_matrix1.multiplyRef(temp_matrix2, temp_matrix4);
-    temp_matrix4.multiplyRef(temp_matrix3, result);
+    Matrix.rotationXLG(roll, temp_matrix1);
+    Matrix.rotationZLG(yaw, temp_matrix2);
+    Matrix.rotationYLG(pitch, temp_matrix3);
+    temp_matrix1.multiplyLG(temp_matrix2, temp_matrix4);
+    temp_matrix4.multiplyLG(temp_matrix3, result);
 };
 /**
  * Constructs a translation matrix from x, y, and z distances. Returns a new Matrix.
@@ -468,8 +468,8 @@ Matrix.translation = function(xtrans, ytrans, ztrans){
  * @param {number} ztrans
  * @return {Matrix}
  */
-Matrix.translationRef = function(xtrans, ytrans, ztrans, result){
-    Matrix.identityRef(result);
+Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
+    Matrix.identityLG(result);
     result[12] = xtrans;
     result[13] = ytrans;
     result[14] = ztrans;
@@ -500,8 +500,8 @@ Matrix.scale = function(xscale, yscale, zscale){
  * @param {number} ztrans
  * @param {Matrix} result
  */
-Matrix.scaleRef = function(xscale, yscale, zscale, result){
-    Matrix.zeroRef(result)
+Matrix.scaleLG = function(xscale, yscale, zscale, result){
+    Matrix.zeroLG(result);
     result[0] = xscale;
     result[5] = yscale;
     result[10] = zscale;
@@ -527,7 +527,7 @@ Matrix.identity = function(){
  * @static
  * @param {Matrix} result
  */
-Matrix.identityRef = function(result){
+Matrix.identityLG = function(result){
     for (var i = 0; i < 16; i++){
        result[i] = 0; 
     }
@@ -551,7 +551,7 @@ Matrix.zero = function(){
  * @static
  * @return {Matrix}
  */
-Matrix.zeroRef = function(result){
+Matrix.zeroLG = function(result){
     for (var i = 0; i < 16; i++){
        result[i] = 0; 
     }
@@ -575,7 +575,7 @@ Matrix.fromArray = function(arr){
  * @static
  * @param {Matrix} result
  */
-Matrix.fromArrayRef = function(arr, result){
+Matrix.fromArrayLG = function(arr, result){
     for (var i = 0; i < 16; i++){
         result[i] = arr[i];
     }
@@ -585,5 +585,6 @@ var temp_matrix1 = new Matrix();
 var temp_matrix2 = new Matrix();
 var temp_matrix3 = new Matrix();
 var temp_matrix4 = new Matrix();
+var temp_vector = new Vector(0,0,0);
 
 module.exports = Matrix;

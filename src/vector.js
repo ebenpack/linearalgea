@@ -38,7 +38,7 @@ Vector.prototype.add = function(vector){
  * @param {Vector} vector
  * @param {Vector} result
  */
-Vector.prototype.addRef = function(vector, result){
+Vector.prototype.addLG = function(vector, result){
     result.x = this.x + vector.x;
     result.y = this.y + vector.y;
     result.z = this.z + vector.z;
@@ -58,7 +58,7 @@ Vector.prototype.subtract = function(vector){
  * @param {Vector} vector
  * @param {Vector} result
  */
-Vector.prototype.subtractRef = function(vector, result){
+Vector.prototype.subtractLG = function(vector, result){
     result.x = this.x - vector.x;
     result.y = this.y - vector.y;
     result.z = this.z - vector.z;
@@ -92,6 +92,25 @@ Vector.prototype.angle = function(vector){
     return Math.acos(theta);
 };
 /**
+ * Calculate angle between two vectors. Low garbage (doesn't create any intermediate Vectors).
+ * @method
+ * @param {Vector} vector
+ * @return {number}
+ */
+Vector.prototype.angleLG = function(vector){
+    this.normalizeLG(temp_vector1);
+    vector.normalizeLG(temp_vector2);
+    var amag = temp_vector1.magnitude();
+    var bmag = temp_vector2.magnitude();
+    if (amag === 0 || bmag === 0){
+        return 0;
+    }
+    var theta = temp_vector1.dot(temp_vector2) / (amag * bmag );
+    if (theta < -1) {theta = -1;}
+    if (theta > 1) {theta = 1;}
+    return Math.acos(theta);
+};
+/**
  * Calculate the cosine of the angle between two vectors.
  * @method
  * @param {Vector} vector
@@ -106,6 +125,25 @@ Vector.prototype.cosAngle = function(vector){
         return 0;
     }
     var theta = a.dot(b) / (amag * bmag );
+    if (theta < -1) {theta = -1;}
+    if (theta > 1) {theta = 1;}
+    return theta;
+};
+/**
+ * Calculate the cosine of the angle between two vectors. Low garbage (doesn't create any intermediate Vectors).
+ * @method
+ * @param {Vector} vector
+ * @return {number}
+ */
+Vector.prototype.cosAngleLG = function(vector){
+    this.normalizeLG(temp_vector1);
+    vector.normalizeLG(temp_vector2);
+    var amag = temp_vector1.magnitude();
+    var bmag = temp_vector2.magnitude();
+    if (amag === 0 || bmag === 0){
+        return 0;
+    }
+    var theta = temp_vector1.dot(temp_vector2) / (amag * bmag );
     if (theta < -1) {theta = -1;}
     if (theta > 1) {theta = 1;}
     return theta;
@@ -154,10 +192,10 @@ Vector.prototype.cross = function(vector){
  * @param {Vector} vector
  * @param {Vector} result
  */
-Vector.prototype.crossRef = function(vector, result){
-    result.x = (this.y * vector.z) - (this.z * vector.y),
-    result.y = (this.z * vector.x) - (this.x * vector.z),
-    result.z = (this.x * vector.y) - (this.y * vector.x)
+Vector.prototype.crossLG = function(vector, result){
+    result.x = (this.y * vector.z) - (this.z * vector.y);
+    result.y = (this.z * vector.x) - (this.x * vector.z);
+    result.z = (this.x * vector.y) - (this.y * vector.x);
 };
 /**
  * Normalize vector. Returns a new Vector.
@@ -176,7 +214,7 @@ Vector.prototype.normalize = function(){
  * @method
  * @param {Vector} result
  */
-Vector.prototype.normalizeRef = function(result){
+Vector.prototype.normalizeLG = function(result){
     var magnitude = this.magnitude();
     if (magnitude === 0) {
         result.x = this.x;
@@ -202,7 +240,7 @@ Vector.prototype.scale = function(scale){
  * @param {number} scale
  * @param {Vector} result
  */
-Vector.prototype.scaleRef = function(scale, result){
+Vector.prototype.scaleLG = function(scale, result){
     result.x = this.x * scale;
     result.y = this.y * scale;
     result.z = this.z * scale;
@@ -220,7 +258,7 @@ Vector.prototype.negate = function(){
  * @method
  * @param {Vector} result
  */
-Vector.prototype.negateRef = function(result){
+Vector.prototype.negateLG = function(result){
     result.x = -this.x;
     result.y = -this.y;
     result.z = -this.z;
@@ -242,9 +280,9 @@ Vector.prototype.vectorProjection = function(vector){
  * @param {Vector} temp A temporary vector used in one of the intermediary steps of the calculation.
  * @return {number}
  */
-Vector.prototype.vectorProjectionRef = function(vector, temp){
+Vector.prototype.vectorProjectionLG = function(vector, result){
     var mag = vector.magnitude();
-    return vector.scaleRef(this.dot(vector) / (mag * mag), temp);
+    vector.scaleLG(this.dot(vector) / (mag * mag), result);
 };
 /**
  * Calculate scalar projection of two vectors.
@@ -274,7 +312,7 @@ Vector.prototype.transform = function(transform_matrix){
  * @param {Matrix} transform_matrix
  * @param {Vector} result
  */
-Vector.prototype.transformRef = function(transform_matrix, result){
+Vector.prototype.transformLG = function(transform_matrix, result){
     var x = (this.x * transform_matrix[0]) + (this.y * transform_matrix[4]) + (this.z * transform_matrix[8]) + transform_matrix[12];
     var y = (this.x * transform_matrix[1]) + (this.y * transform_matrix[5]) + (this.z * transform_matrix[9]) + transform_matrix[13];
     var z = (this.x * transform_matrix[2]) + (this.y * transform_matrix[6]) + (this.z * transform_matrix[10]) + transform_matrix[14];
@@ -313,8 +351,8 @@ Vector.prototype.rotate = function(axis, theta){
  * @param {number} theta
  * @param {Vector} result
  */
-Vector.prototype.rotateRef = function(axis, theta, result){
-    axis.normalizeRef(result);
+Vector.prototype.rotateLG = function(axis, theta, result){
+    axis.normalizeLG(result);
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
     var cos1 = 1-cos;
@@ -351,7 +389,7 @@ Vector.prototype.rotateX = function(theta){
  * @param {number} theta
  * @param {Vector} result
  */
-Vector.prototype.rotateXRef = function(theta, result){
+Vector.prototype.rotateXLG = function(theta, result){
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
     var x = this.x;
@@ -381,7 +419,7 @@ Vector.prototype.rotateY = function(theta){
  * @param {number} theta
  * @param {Vector} result
  */
-Vector.prototype.rotateYRef = function(theta, result){
+Vector.prototype.rotateYLG = function(theta, result){
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
     var x = (cos *this.x) + (sin * this.z);
@@ -411,7 +449,7 @@ Vector.prototype.rotateZ = function(theta){
  * @param {number} theta
  * @param {Vector} result
  */
-Vector.prototype.rotateZRef = function(theta, result){
+Vector.prototype.rotateZLG = function(theta, result){
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
     var x = (cos * this.x) - (sin * this.y);
@@ -441,10 +479,13 @@ Vector.prototype.rotatePitchYawRoll = function(pitch_amnt, yaw_amnt, roll_amnt) 
  * @param {Vector} temp
  * @param {Vector} result
  */
-Vector.prototype.rotatePitchYawRollRef = function(pitch_amnt, yaw_amnt, roll_amnt, result) {
-    this.rotateXRef(roll_amnt, result);
-    result.rotateYRef(pitch_amnt, result);
-    result.rotateZRef(yaw_amnt, result);
+Vector.prototype.rotatePitchYawRollLG = function(pitch_amnt, yaw_amnt, roll_amnt, result) {
+    this.rotateXLG(roll_amnt, result);
+    result.rotateYLG(pitch_amnt, result);
+    result.rotateZLG(yaw_amnt, result);
 };
+
+var temp_vector1 = new Vector(0,0,0);
+var temp_vector2 = new Vector(0,0,0);
 
 module.exports = Vector;
