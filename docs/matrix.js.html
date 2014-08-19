@@ -32,6 +32,7 @@
  *
  */
 
+
 /** 
  * 4x4 matrix.
  * @constructor
@@ -57,7 +58,7 @@ Matrix.prototype.equal = function(matrix){
     return true;
 };
 /**
- * Add matrices.
+ * Add matrices. Returns a new Matrix.
  * @method
  * @param {Matrix} matrix
  * @return {Matrix}
@@ -70,7 +71,18 @@ Matrix.prototype.add = function(matrix){
     return new_matrix;
 };
 /**
- * Subtract matrices.
+ * Add matrices. Result is assigned to result parameter.
+ * @method
+ * @param {Matrix} matrix
+ * @param {Matrix} result
+ */
+Matrix.prototype.addRef = function(matrix, result){
+    for (var i = 0, len = this.length; i &lt; len; i++){
+        result[i] = this[i] + matrix[i];
+    }
+};
+/**
+ * Subtract matrices. Returns a new Matrix.
  * @method
  * @param {Matrix} matrix
  * @return {Matrix}
@@ -83,7 +95,18 @@ Matrix.prototype.subtract = function(matrix){
     return new_matrix;
 };
 /**
- * Multiply matrix by scalar.
+ * Subtract matrices. Result is assigned to result parameter.
+ * @method
+ * @param {Matrix} matrix
+ * @param {Matrix} result
+ */
+Matrix.prototype.subtractRef = function(matrix, result){
+    for (var i = 0, len = this.length; i &lt; len; i++){
+        result[i] = this[i] - matrix[i];
+    }
+};
+/**
+ * Multiply matrix by scalar. Returns a new Matrix.
  * @method
  * @param {number} scalar
  * @return {Matrix}
@@ -96,7 +119,18 @@ Matrix.prototype.multiplyScalar = function(scalar){
     return new_matrix;
 };
 /**
- * Multiply matrices.
+ * Multiply matrix by scalar. Result is assigned to result parameter.
+ * @method
+ * @param {number} scalar
+ * @param {Matrix} result
+ */
+Matrix.prototype.multiplyScalarRef = function(scalar, result){
+    for (var i = 0, len = this.length; i &lt; len; i++){
+        result[i] = this[i] * scalar;
+    }
+};
+/**
+ * Multiply matrices. Returns a new Matrix.
  * @method
  * @param {Matrix} matrix
  * @return {Matrix}
@@ -122,7 +156,31 @@ Matrix.prototype.multiply = function(matrix){
     return new_matrix;
 };
 /**
- * Negate matrix.
+ * Multiply matrices. Result is assigned to result parameter.
+ * @method
+ * @param {Matrix} matrix
+ * @param {Matrix} result
+ */
+Matrix.prototype.multiplyRef = function(matrix, result){
+    result[0] = (this[0] * matrix[0]) + (this[1] * matrix[4]) + (this[2] * matrix[8]) + (this[3] * matrix[12]);
+    result[1] = (this[0] * matrix[1]) + (this[1] * matrix[5]) + (this[2] * matrix[9]) + (this[3] * matrix[13]);
+    result[2] = (this[0] * matrix[2]) + (this[1] * matrix[6]) + (this[2] * matrix[10]) + (this[3] * matrix[14]);
+    result[3] = (this[0] * matrix[3]) + (this[1] * matrix[7]) + (this[2] * matrix[11]) + (this[3] * matrix[15]);
+    result[4] = (this[4] * matrix[0]) + (this[5] * matrix[4]) + (this[6] * matrix[8]) + (this[7] * matrix[12]);
+    result[5] = (this[4] * matrix[1]) + (this[5] * matrix[5]) + (this[6] * matrix[9]) + (this[7] * matrix[13]);
+    result[6] = (this[4] * matrix[2]) + (this[5] * matrix[6]) + (this[6] * matrix[10]) + (this[7] * matrix[14]);
+    result[7] = (this[4] * matrix[3]) + (this[5] * matrix[7]) + (this[6] * matrix[11]) + (this[7] * matrix[15]);
+    result[8] = (this[8] * matrix[0]) + (this[9] * matrix[4]) + (this[10] * matrix[8]) + (this[11] * matrix[12]);
+    result[9] = (this[8] * matrix[1]) + (this[9] * matrix[5]) + (this[10] * matrix[9]) + (this[11] * matrix[13]);
+    result[10] = (this[8] * matrix[2]) + (this[9] * matrix[6]) + (this[10] * matrix[10]) + (this[11] * matrix[14]);
+    result[11] = (this[8] * matrix[3]) + (this[9] * matrix[7]) + (this[10] * matrix[11]) + (this[11] * matrix[15]);
+    result[12] = (this[12] * matrix[0]) + (this[13] * matrix[4]) + (this[14] * matrix[8]) + (this[15] * matrix[12]);
+    result[13] = (this[12] * matrix[1]) + (this[13] * matrix[5]) + (this[14] * matrix[9]) + (this[15] * matrix[13]);
+    result[14] = (this[12] * matrix[2]) + (this[13] * matrix[6]) + (this[14] * matrix[10]) + (this[15] * matrix[14]);
+    result[15] = (this[12] * matrix[3]) + (this[13] * matrix[7]) + (this[14] * matrix[11]) + (this[15] * matrix[15]);
+};
+/**
+ * Negate matrix. Returns a new Matrix.
  * @method
  * @param {number} scalar
  * @return {Matrix}
@@ -135,7 +193,18 @@ Matrix.prototype.negate = function(){
     return new_matrix;
 };
 /**
- * Transpose matrix.
+ * Negate matrix. Result is assigned to result parameter.
+ * @method
+ * @param {number} scalar
+ * @param {Matrix} result
+ */
+Matrix.prototype.negateRef = function(result){
+    for (var i = 0, len = this.length; i &lt; len; i++){
+        result[i] = -this[i];
+    }
+};
+/**
+ * Transpose matrix. Returns a new Matrix.
  * @method
  * @return {Matrix}
  */
@@ -159,9 +228,41 @@ Matrix.prototype.transpose = function(){
     new_matrix[15] = this[15];
     return new_matrix;
 };
+/**
+ * Transpose matrix. Result is assigned to result parameter.
+ * @method
+ * @return {Matrix}
+ */
+Matrix.prototype.transposeRef = function(result){
+    result[0] = this[0];
+    result[1] = this[4];
+    result[2] = this[8];
+    result[3] = this[12];
+    result[4] = this[1];
+    result[5] = this[5];
+    result[6] = this[9];
+    result[7] = this[13];
+    result[8] = this[2];
+    result[9] = this[6];
+    result[10] = this[10];
+    result[11] = this[14];
+    result[12] = this[3];
+    result[13] = this[7];
+    result[14] = this[11];
+    result[15] = this[15];
+};
+/**
+ * Write zeros to all elements of the matrix.
+ * @method
+ */
+Matrix.prototype.empty = function(){
+    for (var i = 0, len = this.length; i &lt; len; i++){
+        this[i] = 0;
+    }
+};
 
 /**
- * Constructs a rotation matrix, rotating by theta around the x-axis
+ * Constructs a rotation matrix, rotating by theta around the x-axis. Returns a new Matrix.
  * @method
  * @static
  * @param {number} theta
@@ -180,7 +281,25 @@ Matrix.rotationX = function(theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the y-axis
+ * Constructs a rotation matrix, rotating by theta around the x-axis. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {number} theta
+ * @param {Matrix} result
+ */
+Matrix.rotationXRef = function(theta, result){
+    var cos = Math.cos(theta);
+    var sin = Math.sin(theta);
+    result.empty();
+    result[0] = 1;
+    result[5] = cos;
+    result[6] = -sin;
+    result[9] = sin;
+    result[10] = cos;
+    result[15] = 1;
+};
+/**
+ * Constructs a rotation matrix, rotating by theta around the y-axis. Returns a new Matrix.
  * @method
  * @static
  * @param {number} theta
@@ -199,7 +318,25 @@ Matrix.rotationY = function(theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the z-axis
+ * Constructs a rotation matrix, rotating by theta around the y-axis. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {number} theta
+ * @param {Matrix} result
+ */
+Matrix.rotationYRef = function(theta, result){
+    var cos = Math.cos(theta);
+    var sin = Math.sin(theta);
+    result.empty();
+    result[0] = cos;
+    result[2] = sin;
+    result[5] = 1;
+    result[8] = -sin;
+    result[10] = cos;
+    result[15] = 1;
+};
+/**
+ * Constructs a rotation matrix, rotating by theta around the z-axis. Returns a new Matrix.
  * @method
  * @static
  * @param {number} theta
@@ -218,7 +355,25 @@ Matrix.rotationZ = function(theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the axis
+ * Constructs a rotation matrix, rotating by theta around the z-axis. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {number} theta
+ * @param {Matrix} result
+ */
+Matrix.rotationZRef = function(theta, result){
+    var cos = Math.cos(theta);
+    var sin = Math.sin(theta);
+    result.empty();
+    result[0] = cos;
+    result[1] = -sin;
+    result[4] = sin;
+    result[5] = cos;
+    result[10] = 1;
+    result[15] = 1;
+};
+/**
+ * Constructs a rotation matrix, rotating by theta around the axis. Returns a new Matrix.
  * @method
  * @static
  * @param {Vector} axis
@@ -250,7 +405,39 @@ Matrix.rotationAxis = function(axis, theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix from pitch, yaw, and roll
+ * Constructs a rotation matrix, rotating by theta around the axis. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {Vector} axis
+ * @param {number} theta
+ * @param {Vector} temp_vector
+ * @param {Matrix} result
+ */
+Matrix.rotationAxisRef = function(axis, theta, temp_vector, result){
+    axis.normalizeRef(temp_vector);
+    var sin = Math.sin(theta);
+    var cos = Math.cos(theta);
+    var cos1 = 1-cos;
+    var ux = temp_vector.x;
+    var uy = temp_vector.y;
+    var uz = temp_vector.z;
+    var xy = ux * uy;
+    var xz = ux * uz;
+    var yz = uy * uz;
+    result.empty();
+    result[0] = cos + ((ux*ux)*cos1);
+    result[1] = (xy*cos1) - (uz*sin);
+    result[2] = (xz*cos1)+(uy*sin);
+    result[4] = (xy*cos1)+(uz*sin);
+    result[5] = cos+((uy*uy)*cos1);
+    result[6] = (yz*cos1)-(ux*sin);
+    result[8] = (xz*cos1)-(uy*sin);
+    result[9] = (yz*cos1)+(ux*sin);
+    result[10] = cos + ((uz*uz)*cos1);
+    result[15] = 1;
+};
+/**
+ * Constructs a rotation matrix from pitch, yaw, and roll. Returns a new Matrix.
  * @method
  * @static
  * @param {number} pitch
@@ -262,7 +449,29 @@ Matrix.rotation = function(pitch, yaw, roll){
     return Matrix.rotationX(roll).multiply(Matrix.rotationZ(yaw)).multiply(Matrix.rotationY(pitch));
 };
 /**
- * Constructs a translation matrix from x, y, and z distances
+ * Constructs a rotation matrix from pitch, yaw, and roll. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {number} pitch
+ * @param {number} yaw
+ * @param {number} roll
+ * @param {Matrix} result
+ */
+Matrix.rotationRef = function(pitch, yaw, roll, result){
+    // TODO: Can I get away with using fewer temporary matrices?
+    temp_matrix1.empty();
+    temp_matrix2.empty();
+    temp_matrix3.empty();
+    temp_matrix4.empty();
+    result.empty();    
+    Matrix.rotationXRef(roll, temp_matrix1);
+    Matrix.rotationZRef(yaw, temp_matrix2);
+    Matrix.rotationYRef(pitch, temp_matrix3);
+    temp_matrix1.multiplyRef(temp_matrix2, temp_matrix4);
+    temp_matrix4.multiplyRef(temp_matrix3, result);
+};
+/**
+ * Constructs a translation matrix from x, y, and z distances. Returns a new Matrix.
  * @method
  * @static
  * @param {number} xtrans
@@ -278,7 +487,22 @@ Matrix.translation = function(xtrans, ytrans, ztrans){
     return translation_matrix;
 };
 /**
- * Constructs a scaling matrix from x, y, and z scale
+ * Constructs a translation matrix from x, y, and z distances. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {number} xtrans
+ * @param {number} ytrans
+ * @param {number} ztrans
+ * @return {Matrix}
+ */
+Matrix.translationRef = function(xtrans, ytrans, ztrans, result){
+    Matrix.identityRef(result);
+    result[12] = xtrans;
+    result[13] = ytrans;
+    result[14] = ztrans;
+};
+/**
+ * Constructs a scaling matrix from x, y, and z scale. Returns a new Matrix.
  * @method
  * @static
  * @param {number} xtrans
@@ -295,7 +519,23 @@ Matrix.scale = function(xscale, yscale, zscale){
     return scaling_matrix;
 };
 /**
- * Constructs an identity matrix
+ * Constructs a scaling matrix from x, y, and z scale. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {number} xtrans
+ * @param {number} ytrans
+ * @param {number} ztrans
+ * @param {Matrix} result
+ */
+Matrix.scaleRef = function(xscale, yscale, zscale, result){
+    Matrix.zeroRef(result)
+    result[0] = xscale;
+    result[5] = yscale;
+    result[10] = zscale;
+    result[15] = 1;
+};
+/**
+ * Constructs an identity matrix. Returns a new Matrix.
  * @method
  * @static
  * @return {Matrix}
@@ -309,7 +549,22 @@ Matrix.identity = function(){
     return identity;
 };
 /**
- * Constructs a zero matrix
+ * Constructs an identity matrix. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {Matrix} result
+ */
+Matrix.identityRef = function(result){
+    for (var i = 0; i &lt; 16; i++){
+       result[i] = 0; 
+    }
+    result[0] = 1;
+    result[5] = 1;
+    result[10] = 1;
+    result[15] = 1;
+};
+/**
+ * Constructs a zero matrix. Returns a new Matrix.
  * @method
  * @static
  * @return {Matrix}
@@ -318,7 +573,18 @@ Matrix.zero = function(){
     return new Matrix();
 };
 /**
- * Constructs a new matrix from an array
+ * Constructs a zero matrix. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @return {Matrix}
+ */
+Matrix.zeroRef = function(result){
+    for (var i = 0; i &lt; 16; i++){
+       result[i] = 0; 
+    }
+};
+/**
+ * Constructs a new matrix from an array. Returns a new Matrix.
  * @method
  * @static
  * @return {Matrix}
@@ -330,6 +596,22 @@ Matrix.fromArray = function(arr){
     }
     return new_matrix;
 };
+/**
+ * Constructs a new matrix from an array. Result is assigned to result parameter.
+ * @method
+ * @static
+ * @param {Matrix} result
+ */
+Matrix.fromArrayRef = function(arr, result){
+    for (var i = 0; i &lt; 16; i++){
+        result[i] = arr[i];
+    }
+};
+
+var temp_matrix1 = new Matrix();
+var temp_matrix2 = new Matrix();
+var temp_matrix3 = new Matrix();
+var temp_matrix4 = new Matrix();
 
 module.exports = Matrix;
 </code></pre>
@@ -348,7 +630,7 @@ module.exports = Matrix;
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Tue Aug 19 2014 10:55:16 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Tue Aug 19 2014 15:53:26 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

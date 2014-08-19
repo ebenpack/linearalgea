@@ -314,16 +314,16 @@ Vector.prototype.rotate = function(axis, theta){
  * @param {Vector} result
  */
 Vector.prototype.rotateRef = function(axis, theta, result){
-    var u = axis.normalize();
+    axis.normalizeRef(result);
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
     var cos1 = 1-cos;
-    var ux = u.x;
-    var uy = u.y;
-    var uz = u.z;
-    var xy = u.x * u.y;
-    var xz = u.x * u.z;
-    var yz = u.y * u.z;
+    var ux = result.x;
+    var uy = result.y;
+    var uz = result.z;
+    var xy = result.x * result.y;
+    var xz = result.x * result.z;
+    var yz = result.y * result.z;
     var x = ((cos + ((ux*ux)*cos1)) * this.x) + (((xy*cos1) - (uz*sin)) * this.y) + (((xz*cos1)+(uy*sin)) * this.z);
     var y = (((xy*cos1)+(uz*sin)) * this.x) + ((cos+((uy*uy)*cos1)) * this.y) + (((yz*cos1)-(ux*sin)) * this.z);
     var z = (((xz*cos1)-(uy*sin)) * this.x) + (((yz*cos1)+(ux*sin)) * this.y) + ((cos + ((ux*ux)*cos1)) * this.z);

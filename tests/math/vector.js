@@ -238,14 +238,14 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(vector1.scalarProjection(vector3), 1.73));
             assert.ok(nearlyEqual(vector123.scalarProjection(vector112), 2.85));
         });
-        test('transform', function(){
-            // TODO: Think of test cases
-            assert.equal(1, 2);
-        });
-        test('transformRef', function(){
-            // TODO: Think of test cases
-            assert.equal(1, 2);
-        });
+        // test('transform', function(){
+        //     // TODO: Think of test cases
+        //     assert.equal(1, 2);
+        // });
+        // test('transformRef', function(){
+        //     // TODO: Think of test cases
+        //     assert.equal(1, 2);
+        // });
         test('rotate', function(){
             var rot1 = vectorx.rotate(vectory, Math.PI / 2);
             var rot2 = vectorx.rotate(vectory, Math.PI);

@@ -4,7 +4,11 @@ var assert = require("assert");
 
 suite('Matrix', function(){
     var zero, zero2, zero3, identity, identity2, identity3, ones, m0, m1, m2, m3, m4, m5, m6, m7, angles;
+    var result, temp_mat, temp_vector;
     setup(function(){
+        result = new Matrix();
+        temp_mat = new Matrix();
+        temp_vector = new Vector(0,0,0);
         angles = [0, Math.PI / 2, Math.PI, 3*Math.PI / 2, Math.PI / 2];
         zero = Matrix.zero();
         zero2 = new Matrix();
@@ -83,6 +87,16 @@ suite('Matrix', function(){
             assert.ok(t2.equal(m1));
             assert.ok(t3.equal(m2));
         });
+        test('addRef', function(){
+            zero.addRef(m1, result);
+            assert.ok(result.equal(m1));
+            m0.addRef(ones, result);
+            assert.ok(result.equal(m1));
+            
+            m0.addRef(ones, result)
+            result.addRef(ones, result);
+            assert.ok(result.equal(m2));
+        });
         test('subtract', function(){
             var t1 = m4.subtract(m5);
             var t2 = m1.subtract(ones);
@@ -91,6 +105,14 @@ suite('Matrix', function(){
             assert.ok(t2.equal(m0));
             assert.ok(t3.equal(ones));
         });
+        test('subtractRef', function(){
+            m4.subtractRef(m5, result);
+            assert.ok(result.equal(zero));
+            m1.subtractRef(ones, result);
+            assert.ok(result.equal(m0));
+            m2.subtractRef(m1, result);
+            assert.ok(result.equal(ones));
+        });
         test('multiplyScalar', function(){
             var t1 = m0.multiplyScalar(2);
             var t2 = zero.multiplyScalar(20);
@@ -98,6 +120,14 @@ suite('Matrix', function(){
             assert.ok(t1.equal(m3));
             assert.ok(t2.equal(zero));
             assert.ok(t3.equal(m0));
+        });
+        test('multiplyScalarRef', function(){
+            m0.multiplyScalarRef(2, result);
+            assert.ok(result.equal(m3));
+            zero.multiplyScalarRef(20, result);
+            assert.ok(result.equal(zero));
+            m0.multiplyScalarRef(1, result);
+            assert.ok(result.equal(m0));
         });
         test('multiply', function(){
             var t1 = m6.multiply(m6);
@@ -110,6 +140,18 @@ suite('Matrix', function(){
             assert.ok(t3.equal(zero));
             assert.ok(t4.equal(m0));
             assert.ok(t5.equal(zero));
+        });
+        test('multiplyRef', function(){
+            m6.multiplyRef(m6, result);
+            assert.ok(result.equal(m7));
+            identity.multiplyRef(identity, result);
+            assert.ok(result.equal(identity));
+            identity.multiplyRef(zero, result);
+            assert.ok(result.equal(zero));
+            identity.multiplyRef(m0, result);
+            assert.ok(result.equal(m0));
+            zero.multiplyRef(m0, result);
+            assert.ok(result.equal(zero));
         });
         test('negate', function(){
             var t1 = m0.negate();
@@ -129,6 +171,26 @@ suite('Matrix', function(){
             for (var j = 0; j < 16; j++){
                 assert.equal(t1[j], -j);
                 assert.equal(t6[j], -1);
+            }
+        });
+        test('negateRef', function(){
+            zero.negateRef(result);
+            assert.ok(result.equal(zero));
+            for (var i = 0; i < 16; i++){
+                m0.negateRef(result);
+                assert.equal(result[i], -m0[i]);
+                m1.negateRef(result);
+                assert.equal(result[i], -m1[i]);
+                m2.negateRef(result);
+                assert.equal(result[i], -m2[i]);
+                m3.negateRef(result);
+                assert.equal(result[i], -m3[i]);
+            }
+            for (var j = 0; j < 16; j++){
+                m0.negateRef(result);
+                assert.equal(result[j], -j);
+                ones.negateRef(result);
+                assert.equal(result[j], -1);
             }
         });
         test('transpose', function(){
@@ -155,6 +217,30 @@ suite('Matrix', function(){
                 assert.equal(t7[i], m3[transpose_map[i]]);
             }
         });
+        test('transposeRef', function(){
+            var transpose_map = {
+                0:0, 1:4, 2:8, 3:12, 4:1, 5:5, 6:9, 7:13,
+                8:2, 9:6, 10:10, 11:14, 12:3, 13:7, 14:11, 15:15
+            }
+
+            identity.transposeRef(result);
+            assert.ok(result.equal(identity));
+            ones.transposeRef(result);
+            assert.ok(result.equal(ones));
+            zero.transposeRef(result);
+            assert.ok(result.equal(zero));
+            var t4 = m0.transpose();
+            for (var i = 0; i < 16; i++){
+                m0.transposeRef(result);
+                assert.equal(result[i], m0[transpose_map[i]]);
+                m1.transposeRef(result);
+                assert.equal(result[i], m1[transpose_map[i]]);
+                m2.transposeRef(result);
+                assert.equal(result[i], m2[transpose_map[i]]);
+                m3.transposeRef(result);
+                assert.equal(result[i], m3[transpose_map[i]]);
+            }
+        });
         test('rotationX', function(){
             // TODO: Add more tests
             for (var i = 0; i < angles.length; i++){
@@ -166,6 +252,19 @@ suite('Matrix', function(){
                 t2[9] = Math.sin(theta)
                 t2[10] = Math.cos(theta)
                 assert.ok(t1.equal(t2));
+            }
+        });
+        test('rotationXRef', function(){
+            // TODO: Add more tests
+            for (var i = 0; i < angles.length; i++){
+                var theta = angles[i];
+                Matrix.rotationXRef(theta, result);
+                var t2 = Matrix.identity();
+                t2[5] = Math.cos(theta)
+                t2[6] = -Math.sin(theta)
+                t2[9] = Math.sin(theta)
+                t2[10] = Math.cos(theta)
+                assert.ok(result.equal(t2));
             }
         });
         test('rotationY', function(){
@@ -181,6 +280,19 @@ suite('Matrix', function(){
                 assert.ok(t1.equal(t2));
             }
         });
+        test('rotationYRef', function(){
+            // TODO: Add more tests
+            for (var i = 0; i < angles.length; i++){
+                var theta = angles[i];
+                Matrix.rotationYRef(theta, result);
+                var t2 = Matrix.identity();
+                t2[0] = Math.cos(theta)
+                t2[2] = Math.sin(theta)
+                t2[8] = -Math.sin(theta)
+                t2[10] = Math.cos(theta)
+                assert.ok(result.equal(t2));
+            }
+        });
         test('rotationZ', function(){
             // TODO: Add more tests
             for (var i = 0; i < angles.length; i++){
@@ -192,6 +304,19 @@ suite('Matrix', function(){
                 t2[4] = Math.sin(theta)
                 t2[5] = Math.cos(theta)
                 assert.ok(t1.equal(t2));
+            }
+        });
+        test('rotationZRef', function(){
+            // TODO: Add more tests
+            for (var i = 0; i < angles.length; i++){
+                var theta = angles[i];
+                Matrix.rotationZRef(theta, result);
+                var t2 = Matrix.identity();
+                t2[0] = Math.cos(theta)
+                t2[1] = -Math.sin(theta)
+                t2[4] = Math.sin(theta)
+                t2[5] = Math.cos(theta)
+                assert.ok(result.equal(t2));
             }
         });
         test('rotationAxis', function(){
@@ -215,11 +340,29 @@ suite('Matrix', function(){
                 assert.ok(t6.equal(Matrix.rotationZ(theta)));
             }
         });
-        test('rotation', function(){
-            // TODO: Add better tests, this is basically just recreating the method
+        test('rotationAxis', function(){
+            // TODO: Add multi-axis tests?
             var xaxis = new Vector(1, 0, 0);
             var yaxis = new Vector(0, 1, 0);
             var zaxis = new Vector(0, 0, 1);
+            for (var i = 0; i < angles.length; i++){
+                var theta = angles[i];
+                Matrix.rotationAxisRef(xaxis, theta, temp_vector, result);
+                assert.ok(result.equal(Matrix.rotationX(theta)));
+                Matrix.rotationAxisRef(yaxis, theta, temp_vector, result);
+                assert.ok(result.equal(Matrix.rotationY(theta)));
+                Matrix.rotationAxisRef(zaxis, theta, temp_vector, result);
+                assert.ok(result.equal(Matrix.rotationZ(theta)));
+                Matrix.rotationAxisRef(xaxis, theta, temp_vector, result);
+                assert.ok(result.equal(Matrix.rotationX(theta)));
+                Matrix.rotationAxisRef(yaxis, theta, temp_vector, result);
+                assert.ok(result.equal(Matrix.rotationY(theta)));
+                Matrix.rotationAxisRef(zaxis, theta, temp_vector, result);
+                assert.ok(result.equal(Matrix.rotationZ(theta)));
+            }
+        });
+        test('rotation', function(){
+            // TODO: Add better tests, this is basically just recreating the method
             for (var i = 0; i < angles.length; i++){
                 var pitch = angles[i];
                 for (var j = 0; j < angles.length; j++){
@@ -231,6 +374,23 @@ suite('Matrix', function(){
                             multiply(Matrix.rotationZ(yaw)).
                             multiply(Matrix.rotationY(pitch));
                         assert.ok(t1.equal(t2));
+                    }
+                }
+            }
+        });
+        test('rotationRef', function(){
+            // TODO: Add better tests, this is basically just recreating the method
+            for (var i = 0; i < angles.length; i++){
+                var pitch = angles[i];
+                for (var j = 0; j < angles.length; j++){
+                    var yaw = angles[j];
+                    for (var k = 0; k < angles.length; k++){
+                        var roll = angles[k];
+                        Matrix.rotationRef(pitch, yaw, roll, result);
+                        var t1 = Matrix.rotationX(roll).
+                            multiply(Matrix.rotationZ(yaw)).
+                            multiply(Matrix.rotationY(pitch));
+                        assert.ok(result.equal(t1));
                     }
                 }
             }
@@ -258,6 +418,34 @@ suite('Matrix', function(){
                                 result = 0;
                             }
                             assert.equal(t1[m], result);
+                        }
+                    }
+                }
+            }
+        });
+        test('translationRef', function(){
+            var trans = [1, 2, 3, 5, 10, 20, 30, 40];
+            for (var i = 0; i < trans.length; i++){
+                var xtrans = trans[i];
+                for (var j = 0; j < trans.length; j++){
+                    var ytrans = trans[j];
+                    for (var k = 0; k < trans.length; k++){
+                        var ztrans = trans[k];
+                        var t1 = Matrix.translationRef(xtrans, ytrans, ztrans, result);
+                        for (var m = 0; m < 16; m++){
+                            var res;
+                            if (m === 12){
+                                res = xtrans;
+                            } else if (m === 13){
+                                res = ytrans;
+                            } else if (m === 14){
+                                res = ztrans;
+                            } else if (m === 0 || m === 5 || m === 10 || m === 15) {
+                                res = 1;
+                            } else {
+                                res = 0;
+                            }
+                            assert.equal(res, result[m]);
                         }
                     }
                 }
@@ -291,6 +479,34 @@ suite('Matrix', function(){
                 }
             }
         });
+        test('scaleRef', function(){
+            var scale = [1, 2, 3, 5, 10, 20, 30, 40];
+            for (var i = 0; i < scale.length; i++){
+                var xscale = scale[i];
+                for (var j = 0; j < scale.length; j++){
+                    var yscale = scale[j];
+                    for (var k = 0; k < scale.length; k++){
+                        var zscale = scale[k];
+                        var t1 = Matrix.scaleRef(xscale, yscale, zscale, result);
+                        for (var m = 0; m < 16; m++){
+                            var res;
+                            if (m === 0){
+                                res = xscale;
+                            } else if (m === 5){
+                                res = yscale;
+                            } else if (m === 10){
+                                res = zscale;
+                            } else if (m === 15) {
+                                res = 1;
+                            } else {
+                                res = 0;
+                            }
+                            assert.equal(result[m], res);
+                        }
+                    }
+                }
+            }
+        });
         test('identity', function(){
             assert.ok(identity.equal(identity2));
             assert.ok(identity.equal(identity3));
@@ -302,11 +518,31 @@ suite('Matrix', function(){
                 }
             }
         });
+        test('identityRef', function(){
+            Matrix.identityRef(result);
+            assert.ok(result.equal(identity2));
+            assert.ok(result.equal(identity3));
+            for (var i = 0; i < 16; i++){
+                if (i % 5 === 0){
+                    assert.equal(result[i], 1);
+                } else {
+                    assert.equal(result[i], 0);
+                }
+            }
+        });
         test('zero', function(){
             assert.ok(zero.equal(zero2));
             assert.ok(zero.equal(zero3));
             for (var i = 0; i < 16; i++){
                 assert.equal(zero[i], 0);
+            }
+        });
+        test('zero', function(){
+            Matrix.zeroRef(result);
+            assert.ok(result.equal(zero2));
+            assert.ok(result.equal(zero3));
+            for (var i = 0; i < 16; i++){
+                assert.equal(result[i], 0);
             }
         });
         test('fromArray', function(){
@@ -315,6 +551,15 @@ suite('Matrix', function(){
             assert.ok(zero2.equal(zero3));
             assert.ok(identity.equal(identity3));
             assert.ok(identity2.equal(identity3));
+        });
+        test('fromArray', function(){
+            Matrix.fromArrayRef([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], result);
+            assert.ok(result.equal(zero3));
+            assert.ok(result.equal(zero2));
+            Matrix.fromArrayRef([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1], result);
+            assert.ok(result.equal(identity2));
+            Matrix.fromArrayRef([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610], result);
+            assert.ok(result.equal(m4));
         });
     });
 });
