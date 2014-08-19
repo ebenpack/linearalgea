@@ -24,7 +24,7 @@ function Vector(x, y, z){
     }
 }
 /**
- * Add vectors.
+ * Add vectors. Returns a new Vector.
  * @method
  * @param {Vector} vector
  * @return {Vector}
@@ -33,13 +33,35 @@ Vector.prototype.add = function(vector){
     return new Vector(this.x + vector.x, this.y + vector.y, this.z + vector.z);
 };
 /**
- * Subtract vectors.
+ * Add vectors. Result is assigned to result parameter.
+ * @method
+ * @param {Vector} vector
+ * @param {Vector} result
+ */
+Vector.prototype.addRef = function(vector, result){
+    result.x = this.x + vector.x;
+    result.y = this.y + vector.y;
+    result.z = this.z + vector.z;
+};
+/**
+ * Subtract vectors. Returns a new Vector.
  * @method
  * @param {Vector} vector
  * @return {Vector}
  */
 Vector.prototype.subtract = function(vector){
     return new Vector(this.x - vector.x, this.y - vector.y, this.z - vector.z);
+};
+/**
+ * Subtract vectors. Result is assigned to result parameter.
+ * @method
+ * @param {Vector} vector
+ * @param {Vector} result
+ */
+Vector.prototype.subtractRef = function(vector, result){
+    result.x = this.x - vector.x;
+    result.y = this.y - vector.y;
+    result.z = this.z - vector.z;
 };
 /**
  * Compare vectors for equality
@@ -105,7 +127,7 @@ Vector.prototype.magnitudeSquared = function(){
     return (this.x * this.x) + (this.y * this.y) + (this.z * this.z);
 };
 /**
- * Calculaye dot product of two vectors.
+ * Calculate dot product of two vectors.
  * @method
  * @param {Vector} vector
  * @return {number}
@@ -114,7 +136,7 @@ Vector.prototype.dot = function(vector){
     return (this.x * vector.x) + (this.y * vector.y) + (this.z * vector.z);
 };
 /**
- * Find cross product of two vectors.
+ * Calculate cross product of two vectors. Returns a new Vector.
  * @method
  * @param {Vector} vector
  * @return {Vector}
@@ -127,7 +149,18 @@ Vector.prototype.cross = function(vector){
     );
 };
 /**
- * Normalize vector.
+ * Calculate cross product of two vectors. Result is assigned to result parameter.
+ * @method
+ * @param {Vector} vector
+ * @param {Vector} result
+ */
+Vector.prototype.crossRef = function(vector, result){
+    result.x = (this.y * vector.z) - (this.z * vector.y),
+    result.y = (this.z * vector.x) - (this.x * vector.z),
+    result.z = (this.x * vector.y) - (this.y * vector.x)
+};
+/**
+ * Normalize vector. Returns a new Vector.
  * @method
  * @return {Vector}
  */
@@ -139,7 +172,23 @@ Vector.prototype.normalize = function(){
     return new Vector(this.x / magnitude, this.y / magnitude, this.z / magnitude);
 };
 /**
- * Scale vector by scaling factor.
+ * Normalize vector. Result is assigned to result parameter.
+ * @method
+ * @param {Vector} result
+ */
+Vector.prototype.normalizeRef = function(result){
+    var magnitude = this.magnitude();
+    if (magnitude === 0) {
+        result.x = this.x;
+        result.y = this.y;
+        result.z = this.z;
+    }
+    result.x = this.x / magnitude;
+    result.y = this.y / magnitude;
+    result.z = this.z / magnitude;
+};
+/**
+ * Scale vector by scaling factor. Returns a new Vector.
  * @method
  * @param {number} scale
  * @return {Vector}
@@ -148,12 +197,33 @@ Vector.prototype.scale = function(scale){
     return new Vector(this.x * scale, this.y * scale, this.z * scale);
 };
 /**
- * Negate vector.
+ * Scale vector by scaling factor. Result is assigned to result parameter.
+ * @method
+ * @param {number} scale
+ * @param {Vector} result
+ */
+Vector.prototype.scaleRef = function(scale, result){
+    result.x = this.x * scale;
+    result.y = this.y * scale;
+    result.z = this.z * scale;
+};
+/**
+ * Negate vector. Returns a new Vector.
  * @method
  * @return {Vector}
  */
 Vector.prototype.negate = function(){
     return new Vector(-this.x, -this.y, -this.z);
+};
+/**
+ * Negate vector. Result is assigned to result parameter.
+ * @method
+ * @param {Vector} result
+ */
+Vector.prototype.negateRef = function(result){
+    result.x = -this.x;
+    result.y = -this.y;
+    result.z = -this.z;
 };
 /**
  * Calculate vector projection of two vectors.
@@ -166,6 +236,17 @@ Vector.prototype.vectorProjection = function(vector){
     return vector.scale(this.dot(vector) / (mag * mag));
 };
 /**
+ * Calculate vector projection of two vectors. Does not construct any new Vectors in the course of its operation.
+ * @method
+ * @param {Vector} vector
+ * @param {Vector} temp A temporary vector used in one of the intermediary steps of the calculation.
+ * @return {number}
+ */
+Vector.prototype.vectorProjectionRef = function(vector, temp){
+    var mag = vector.magnitude();
+    return vector.scaleRef(this.dot(vector) / (mag * mag), temp);
+};
+/**
  * Calculate scalar projection of two vectors.
  * @method
  * @param {Vector} vector
@@ -175,7 +256,7 @@ Vector.prototype.scalarProjection = function(vector){
     return this.dot(vector) / vector.magnitude();
 };
 /**
- * Perform linear tranformation on a vector.
+ * Perform linear tranformation on a vector. Returns a new Vector.
  * @method
  * @param {Matrix} transform_matrix
  * @return {Vector}
@@ -188,7 +269,22 @@ Vector.prototype.transform = function(transform_matrix){
     return new Vector(x / w, y / w, z / w);
 };
 /**
- * Rotate vector by theta around axis.
+ * Perform linear tranformation on a vector.  Result is assigned to result parameter.
+ * @method
+ * @param {Matrix} transform_matrix
+ * @param {Vector} result
+ */
+Vector.prototype.transformRef = function(transform_matrix, result){
+    var x = (this.x * transform_matrix[0]) + (this.y * transform_matrix[4]) + (this.z * transform_matrix[8]) + transform_matrix[12];
+    var y = (this.x * transform_matrix[1]) + (this.y * transform_matrix[5]) + (this.z * transform_matrix[9]) + transform_matrix[13];
+    var z = (this.x * transform_matrix[2]) + (this.y * transform_matrix[6]) + (this.z * transform_matrix[10]) + transform_matrix[14];
+    var w = (this.x * transform_matrix[3]) + (this.y * transform_matrix[7]) + (this.z * transform_matrix[11]) + transform_matrix[15];
+    result.x = x / w;
+    result.y = y / w;
+    result.z = z / w;
+};
+/**
+ * Rotate vector by theta around axis. Returns a new Vector.
  * @method
  * @param {Vector} axis
  * @param {number} theta
@@ -211,7 +307,32 @@ Vector.prototype.rotate = function(axis, theta){
     return new Vector(x, y, z);
 };
 /**
- * Rotate vector by theta around x-axis.
+ * Rotate vector by theta around axis. Result is assigned to result parameter.
+ * @method
+ * @param {Vector} axis
+ * @param {number} theta
+ * @param {Vector} result
+ */
+Vector.prototype.rotateRef = function(axis, theta, result){
+    var u = axis.normalize();
+    var sin = Math.sin(theta);
+    var cos = Math.cos(theta);
+    var cos1 = 1-cos;
+    var ux = u.x;
+    var uy = u.y;
+    var uz = u.z;
+    var xy = u.x * u.y;
+    var xz = u.x * u.z;
+    var yz = u.y * u.z;
+    var x = ((cos + ((ux*ux)*cos1)) * this.x) + (((xy*cos1) - (uz*sin)) * this.y) + (((xz*cos1)+(uy*sin)) * this.z);
+    var y = (((xy*cos1)+(uz*sin)) * this.x) + ((cos+((uy*uy)*cos1)) * this.y) + (((yz*cos1)-(ux*sin)) * this.z);
+    var z = (((xz*cos1)-(uy*sin)) * this.x) + (((yz*cos1)+(ux*sin)) * this.y) + ((cos + ((ux*ux)*cos1)) * this.z);
+    result.x = x;
+    result.y = y;
+    result.z = z;
+};
+/**
+ * Rotate vector by theta around x-axis. Returns a new Vector.
  * @method
  * @param {number} theta
  * @return {Vector}
@@ -225,7 +346,23 @@ Vector.prototype.rotateX = function(theta){
     return new Vector(x, y, z);
 };
 /**
- * Rotate vector by theta around y-axis.
+ * Rotate vector by theta around x-axis. Result is assigned to result parameter.
+ * @method
+ * @param {number} theta
+ * @param {Vector} result
+ */
+Vector.prototype.rotateXRef = function(theta, result){
+    var sin = Math.sin(theta);
+    var cos = Math.cos(theta);
+    var x = this.x;
+    var y = (cos * this.y) - (sin * this.z);
+    var z = (sin * this.y) + (cos * this.z);
+    result.x = x;
+    result.y = y;
+    result.z = z;
+};
+/**
+ * Rotate vector by theta around y-axis. Returns a new Vector.
  * @method
  * @param {number} theta
  * @return {Vector}
@@ -239,7 +376,23 @@ Vector.prototype.rotateY = function(theta){
     return new Vector(x, y, z);
 };
 /**
- * Rotate vector by theta around z-axis.
+ * Rotate vector by theta around y-axis. Result is assigned to result parameter.
+ * @method
+ * @param {number} theta
+ * @param {Vector} result
+ */
+Vector.prototype.rotateYRef = function(theta, result){
+    var sin = Math.sin(theta);
+    var cos = Math.cos(theta);
+    var x = (cos *this.x) + (sin * this.z);
+    var y = this.y;
+    var z = -(sin * this.x) + (cos * this.z);
+    result.x = x;
+    result.y = y;
+    result.z = z;
+};
+/**
+ * Rotate vector by theta around z-axis. Returns a new Vector.
  * @method
  * @param {number} theta
  * @return {Vector}
@@ -253,7 +406,23 @@ Vector.prototype.rotateZ = function(theta){
     return new Vector(x, y, z);
 };
 /**
- * Rotate vector by pitch, yaw, and roll.
+ * Rotate vector by theta around z-axis. Result is assigned to result parameter.
+ * @method
+ * @param {number} theta
+ * @param {Vector} result
+ */
+Vector.prototype.rotateZRef = function(theta, result){
+    var sin = Math.sin(theta);
+    var cos = Math.cos(theta);
+    var x = (cos * this.x) - (sin * this.y);
+    var y = (sin * this.x) + (cos * this.y);
+    var z = this.z;
+    result.x = x;
+    result.y = y;
+    result.z = z;
+};
+/**
+ * Rotate vector by pitch, yaw, and roll. Returns a new Vector.
  * @method
  * @param {number} pitch
  * @param {number} yaw
@@ -262,6 +431,20 @@ Vector.prototype.rotateZ = function(theta){
  */
 Vector.prototype.rotatePitchYawRoll = function(pitch_amnt, yaw_amnt, roll_amnt) {
     return this.rotateX(roll_amnt).rotateY(pitch_amnt).rotateZ(yaw_amnt);
+};
+/** 
+ * Rotate vector by pitch, yaw, and roll. Result is assigned to result parameter.
+ * @method
+ * @param {number} pitch
+ * @param {number} yaw
+ * @param {number} roll
+ * @param {Vector} temp
+ * @param {Vector} result
+ */
+Vector.prototype.rotatePitchYawRollRef = function(pitch_amnt, yaw_amnt, roll_amnt, result) {
+    this.rotateXRef(roll_amnt, result);
+    result.rotateYRef(pitch_amnt, result);
+    result.rotateZRef(yaw_amnt, result);
 };
 
 module.exports = Vector;
