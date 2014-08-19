@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright (c) 2014 Eben Packwood. All rights reserved.
+ * MIT License
+ *
+ */
+
 /** 
  * 4x4 matrix.
  * @constructor
@@ -9,7 +16,7 @@ function Matrix(){
     this.length = 16;
 }
 /**
- * Compare matrix with self for equality.
+ * Compare matrices for equality.
  * @method
  * @param {Matrix} matrix
  * @return {boolean}
@@ -23,7 +30,7 @@ Matrix.prototype.equal = function(matrix){
     return true;
 };
 /**
- * Add matrix to self.
+ * Add matrices.
  * @method
  * @param {Matrix} matrix
  * @return {Matrix}
@@ -36,7 +43,7 @@ Matrix.prototype.add = function(matrix){
     return new_matrix;
 };
 /**
- * Subtract matrix from self.
+ * Subtract matrices.
  * @method
  * @param {Matrix} matrix
  * @return {Matrix}
@@ -49,7 +56,7 @@ Matrix.prototype.subtract = function(matrix){
     return new_matrix;
 };
 /**
- * Multiply self by scalar.
+ * Multiply matrix by scalar.
  * @method
  * @param {number} scalar
  * @return {Matrix}
@@ -62,7 +69,7 @@ Matrix.prototype.multiplyScalar = function(scalar){
     return new_matrix;
 };
 /**
- * Multiply self by matrix.
+ * Multiply matrices.
  * @method
  * @param {Matrix} matrix
  * @return {Matrix}
@@ -88,7 +95,7 @@ Matrix.prototype.multiply = function(matrix){
     return new_matrix;
 };
 /**
- * Negate self.
+ * Negate matrix.
  * @method
  * @param {number} scalar
  * @return {Matrix}
@@ -101,7 +108,7 @@ Matrix.prototype.negate = function(){
     return new_matrix;
 };
 /**
- * Transpose self.
+ * Transpose matrix.
  * @method
  * @return {Matrix}
  */
