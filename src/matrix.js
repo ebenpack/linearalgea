@@ -227,6 +227,18 @@ Matrix.prototype.empty = function(){
         this[i] = 0;
     }
 };
+/**
+ * Copy matrix values to another matrix.
+ * @method
+ * @param result
+ *
+ */
+Matrix.prototype.copy = function(result) {
+    for (var i = 0; i < 16; i++) {
+        result[i] = this[i];
+    }
+};
+
 
 /**
  * Constructs a rotation matrix, rotating by theta around the x-axis. Returns a new Matrix.
@@ -571,6 +583,16 @@ Matrix.fromArray = function(arr){
 Matrix.fromArrayLG = function(arr, result){
     for (var i = 0; i < 16; i++){
         result[i] = arr[i];
+    }
+};
+/**
+ * Copy values from one matrix to another.
+ * @param matrix1
+ * @param matrix2
+ */
+Matrix.copy = function(matrix1, matrix2){
+    for (var i = 0; i < 16; i++) {
+        matrix2[i] = matrix1[i];
     }
 };
 
