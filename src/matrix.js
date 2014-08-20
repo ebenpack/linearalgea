@@ -1,12 +1,5 @@
 var Vector = require('./vector.js');
 
-/**
- * @license
- * Copyright (c) 2014 Eben Packwood. All rights reserved.
- * MIT License
- *
- */
-
 /** 
  * 4x4 matrix.
  * @constructor

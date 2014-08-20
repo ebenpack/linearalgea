@@ -1,11 +1,4 @@
 /**
- * @license
- * Copyright (c) 2014 Eben Packwood. All rights reserved.
- * MIT License
- *
- */
-
-/**
  * 3D vector.
  * @constructor
  * @param {number} x x coordinate
