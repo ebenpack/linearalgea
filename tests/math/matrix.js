@@ -241,6 +241,30 @@ suite('Matrix', function(){
                 assert.equal(result[i], m3[transpose_map[i]]);
             }
         });
+        test('empty', function(){
+                m0.transposeLG(result);
+                result.empty();
+                assert.ok(result.equal(zero));
+                m1.transposeLG(result);
+                result.empty();
+                assert.ok(result.equal(zero));
+                m2.transposeLG(result);
+                result.empty();
+                assert.ok(result.equal(zero));
+                m3.transposeLG(result);
+                result.empty();
+                assert.ok(result.equal(zero));
+        });
+        test('copy', function(){
+            m0.copy(result);
+            assert.ok(result.equal(m0));
+            m1.copy(result);
+            assert.ok(result.equal(m1));
+            m2.copy(result);
+            assert.ok(result.equal(m2));
+            m3.copy(result);
+            assert.ok(result.equal(m3));
+        });
         test('rotationX', function(){
             // TODO: Add more tests
             for (var i = 0; i < angles.length; i++){
@@ -560,6 +584,16 @@ suite('Matrix', function(){
             assert.ok(result.equal(identity2));
             Matrix.fromArrayLG([0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610], result);
             assert.ok(result.equal(m4));
+        });
+        test('Matrix.copy', function(){
+            Matrix.copy(m0, result);
+            assert.ok(result.equal(m0));
+            Matrix.copy(m1, result);
+            assert.ok(result.equal(m1));
+            Matrix.copy(m2, result);
+            assert.ok(result.equal(m2));
+            Matrix.copy(m3, result);
+            assert.ok(result.equal(m3));
         });
     });
 });
