@@ -60,6 +60,7 @@ Matrix.prototype.addLG = function(matrix, result){
     result[13] = this[13] + matrix[13];
     result[14] = this[14] + matrix[14];
     result[15] = this[15] + matrix[15];
+    return result;
 };
 /**
  * Subtract matrices. Returns a new Matrix.
@@ -97,6 +98,7 @@ Matrix.prototype.subtractLG = function(matrix, result){
     result[13] = this[13] - matrix[13];
     result[14] = this[14] - matrix[14];
     result[15] = this[15] - matrix[15];
+    return result;
 };
 /**
  * Multiply matrix by scalar. Returns a new Matrix.
@@ -134,6 +136,7 @@ Matrix.prototype.multiplyScalarLG = function(scalar, result){
     result[13] = this[13] * scalar;
     result[14] = this[14] * scalar;
     result[15] = this[15] * scalar;
+    return result;
 };
 /**
  * Multiply matrices. Returns a new Matrix.
@@ -184,6 +187,7 @@ Matrix.prototype.multiplyLG = function(matrix, result){
     result[13] = (this[12] * matrix[1]) + (this[13] * matrix[5]) + (this[14] * matrix[9]) + (this[15] * matrix[13]);
     result[14] = (this[12] * matrix[2]) + (this[13] * matrix[6]) + (this[14] * matrix[10]) + (this[15] * matrix[14]);
     result[15] = (this[12] * matrix[3]) + (this[13] * matrix[7]) + (this[14] * matrix[11]) + (this[15] * matrix[15]);
+    return result;
 };
 /**
  * Negate matrix. Returns a new Matrix.
@@ -221,6 +225,7 @@ Matrix.prototype.negateLG = function(result){
     result[13] = -this[13];
     result[14] = -this[14];
     result[15] = -this[15];
+    return result;
 };
 /**
  * Transpose matrix. Returns a new Matrix.
@@ -269,6 +274,7 @@ Matrix.prototype.transposeLG = function(result){
     result[13] = this[7];
     result[14] = this[11];
     result[15] = this[15];
+    return result;
 };
 /**
  * Write zeros to all elements of the matrix.
@@ -289,6 +295,7 @@ Matrix.prototype.copy = function(result) {
     for (var i = 0; i < 16; i++) {
         result[i] = this[i];
     }
+    return result;
 };
 
 
@@ -337,6 +344,7 @@ Matrix.rotationXLG = function(theta, result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix, rotating by theta around the y-axis. Returns a new Matrix.
@@ -383,6 +391,7 @@ Matrix.rotationYLG = function(theta, result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix, rotating by theta around the z-axis. Returns a new Matrix.
@@ -429,6 +438,7 @@ Matrix.rotationZLG = function(theta, result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix, rotating by theta around the axis. Returns a new Matrix.
@@ -497,6 +507,7 @@ Matrix.rotationAxisLG = function(axis, theta, result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix from pitch, yaw, and roll. Returns a new Matrix.
@@ -526,6 +537,7 @@ Matrix.rotationLG = function(pitch, yaw, roll, result){
     Matrix.rotationYLG(pitch, temp_matrix3);
     temp_matrix1.multiplyLG(temp_matrix2, temp_matrix4);
     temp_matrix4.multiplyLG(temp_matrix3, result);
+    return result;
 };
 /**
  * Constructs a translation matrix from x, y, and z distances. Returns a new Matrix.
@@ -568,6 +580,7 @@ Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
     result[13] = ytrans;
     result[14] = ztrans;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a scaling matrix from x, y, and z scale. Returns a new Matrix.
@@ -612,6 +625,7 @@ Matrix.scaleLG = function(xscale, yscale, zscale, result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs an identity matrix. Returns a new Matrix.
@@ -650,6 +664,7 @@ Matrix.identityLG = function(result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a zero matrix. Returns a new Matrix.
@@ -683,6 +698,7 @@ Matrix.zeroLG = function(result){
     result[13] = 0;
     result[14] = 0;
     result[15] = 0;
+    return result;
 };
 /**
  * Constructs a new matrix from an array. Returns a new Matrix.
@@ -720,6 +736,7 @@ Matrix.fromArrayLG = function(arr, result){
     result[13] = arr[13];
     result[14] = arr[14];
     result[15] = arr[15];
+    return result;
 };
 /**
  * Copy values from one matrix to another.
@@ -730,6 +747,7 @@ Matrix.copy = function(matrix1, matrix2){
     for (var i = 0; i < 16; i++) {
         matrix2[i] = matrix1[i];
     }
+    return matrix2;
 };
 
 var temp_matrix1 = new Matrix();

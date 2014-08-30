@@ -5,9 +5,10 @@ var nearlyEqual = require('../helpers.js')['nearlyEqual'];
 suite('Vector', function(){
     var origin, vector1, vector2, vector3, vector4, vector5, vectorx, vectory, vectorz;
     var vector100x, vector200y, vector300z, vector123, vector112;
-    var result, temp1, temp2;
+    var result, result2, temp1, temp2;
     setup(function(){
         result = new Vector(0, 0, 0);
+        result2 = new Vector(0, 0, 0);
         temp1 = new Vector(0, 0, 0);
         temp2 = new Vector(0, 0, 0);
         origin = new Vector(0, 0, 0);
@@ -47,11 +48,12 @@ suite('Vector', function(){
             assert.equal(t2.z, 0);
         });
         test('addLG', function(){
-            vector1.addLG(vector3, result);
+            result2 = vector1.addLG(vector3, result);
             assert.equal(result.x, 11);
             assert.equal(result.y, 11);
             assert.equal(result.z, 11);
             assert.ok(result.equal(vector4));
+            assert.ok(result2.equal(result));
             vector1.addLG(vector5, result);
             assert.ok(result.equal(origin));
             assert.equal(result.x, 0);
@@ -71,13 +73,14 @@ suite('Vector', function(){
             assert.equal(t2.z, 0);
         });
         test('subtractLG', function(){
-            vector4.subtractLG(vector1, result);
+            result2 = vector4.subtractLG(vector1, result);
             assert.ok(result.equal(vector3));
             assert.equal(result.x, 10);
             assert.equal(result.y, 10);
             assert.equal(result.z, 10);
             vector1.subtractLG(vector2, result);
             assert.ok(result.equal(origin));
+            assert.ok(result2.equal(result));
             assert.equal(result.x, 0);
             assert.equal(result.y, 0);
             assert.equal(result.z, 0);
@@ -154,7 +157,7 @@ suite('Vector', function(){
             assert.equal(t1.z, 3);
         });
         test('crossLG', function(){
-            vector123.crossLG(vector112, result);
+            result2 = vector123.crossLG(vector112, result);
             assert.equal(result.x, 1);
             assert.equal(result.y, -5);
             assert.equal(result.z, 3);
@@ -164,6 +167,7 @@ suite('Vector', function(){
             vectory.crossLG(vectorz, result);
             assert.equal(result.x, 1);
             assert.ok(result.equal(vectorx));
+            assert.ok(result2.equal(result));
             vectorz.crossLG(vectorx, result);
             assert.equal(result.y, 1);
             assert.ok(result.equal(vectory));
@@ -180,12 +184,13 @@ suite('Vector', function(){
             assert.equal(vector300z.normalize().z, 1);
         });
         test('normalizeLG', function(){
-            vector100x.normalizeLG(result)
+            result2 = vector100x.normalizeLG(result)
             assert.equal(result.x, 1);
             vector200y.normalizeLG(result)
             assert.equal(result.y, 1);
             vector300z.normalizeLG(result)
             assert.equal(result.z, 1);
+            assert.ok(result2.equal(result));
         });
         test('scale', function(){
             assert.ok(vectorx.scale(100).equal(vector100x));
@@ -195,7 +200,7 @@ suite('Vector', function(){
             assert.ok(vector1.scale(11).equal(vector4));
         });
         test('scaleLG', function(){
-            vectorx.scaleLG(100, result);
+            result2 = vectorx.scaleLG(100, result);
             assert.ok(result.equal(vector100x));
             vectory.scaleLG(200, result);
             assert.ok(result.equal(vector200y));
@@ -205,17 +210,19 @@ suite('Vector', function(){
             assert.ok(result.equal(vector3));
             vector1.scaleLG(11, result);
             assert.ok(result.equal(vector4));
+            assert.ok(result2.equal(result));
         });
         test('negate', function(){
             assert.ok(vector1.negate().equal(vector5));
             assert.ok(vector1.negate().negate().equal(vector1));
         });
         test('negateLG', function(){
-            vector1.negateLG(result);
+            result2 = vector1.negateLG(result);
             assert.ok(result.equal(vector5));
             vector1.negateLG(temp1);
             temp1.negateLG(result);
             assert.ok(result.equal(vector1));
+            assert.ok(result2.equal(result));
         });
         test('vectorProjection', function(){
             var t1 = vectorx.vectorProjection(vectory);
@@ -232,7 +239,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(t3.z, 2.33));
         });
         test('vectorProjectionLG', function(){
-            vectorx.vectorProjectionLG(vectory, result);
+            result2 = vectorx.vectorProjectionLG(vectory, result);
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, 0));
@@ -244,6 +251,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(result.x, -1.167));
             assert.ok(nearlyEqual(result.y, 1.16));
             assert.ok(nearlyEqual(result.z, 2.33));
+            assert.ok(result2.equal(result));
         });
         test('scalarProjection', function(){
             assert.ok(nearlyEqual(vectorx.scalarProjection(vectory), 0));
@@ -278,8 +286,8 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(rot4.y, 0));
             assert.ok(nearlyEqual(rot4.z, 0));
         });
-        test('rotate', function(){
-            vectorx.rotateLG(vectory, Math.PI / 2, result);
+        test('rotateLG', function(){
+            result2 = vectorx.rotateLG(vectory, Math.PI / 2, result);
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, -1));
@@ -295,6 +303,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(result.x, 1));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, 0));
+            assert.ok(result2.equal(result));
         });
         test('rotateX', function(){
             var rot1 = vectorz.rotateX(Math.PI / 2);
@@ -315,7 +324,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(rot4.z, 1));
         });
         test('rotateXLG', function(){
-            vectorz.rotateXLG(Math.PI / 2, result);
+            result2 = vectorz.rotateXLG(Math.PI / 2, result);
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, -1));
             assert.ok(nearlyEqual(result.z, 0));
@@ -331,6 +340,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, 1));
+            assert.ok(result2.equal(result));
         });
         test('rotateY', function(){
             var rot1 = vectorx.rotateY(Math.PI / 2);
@@ -351,7 +361,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(rot4.z, 0));
         });
         test('rotateYLG', function(){
-            vectorx.rotateYLG(Math.PI / 2, result);
+            result2 = vectorx.rotateYLG(Math.PI / 2, result);
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, -1));
@@ -367,6 +377,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(result.x, 1));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, 0));
+            assert.ok(result2.equal(result));
         });
         test('rotateZ', function(){
             var rot1 = vectory.rotateZ(Math.PI / 2);
@@ -387,7 +398,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(rot4.z, 0));
         });
         test('rotateZLG', function(){
-            vectory.rotateZLG(Math.PI / 2, result);
+            result2 = vectory.rotateZLG(Math.PI / 2, result);
             assert.ok(nearlyEqual(result.x, -1));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, 0));
@@ -403,6 +414,7 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, 1));
             assert.ok(nearlyEqual(result.z, 0));
+            assert.ok(result2.equal(result));
         });
         test('rotatePitchYawRoll', function(){
             var rot1 = vectorx.rotatePitchYawRoll(Math.PI / 2, Math.PI / 2, Math.PI / 2);
@@ -411,10 +423,11 @@ suite('Vector', function(){
             assert.ok(nearlyEqual(rot1.z, -1));
         });
         test('rotatePitchYawRollLG', function(){
-            vectorx.rotatePitchYawRollLG(Math.PI / 2, Math.PI / 2, Math.PI / 2, result);
+            result2 = vectorx.rotatePitchYawRollLG(Math.PI / 2, Math.PI / 2, Math.PI / 2, result);
             assert.ok(nearlyEqual(result.x, 0));
             assert.ok(nearlyEqual(result.y, 0));
             assert.ok(nearlyEqual(result.z, -1));
+            assert.ok(result2.equal(result));
         });
     });
 });
