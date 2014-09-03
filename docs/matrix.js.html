@@ -69,11 +69,26 @@ Matrix.prototype.add = function(matrix){
  * @method
  * @param {Matrix} matrix
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.addLG = function(matrix, result){
-    for (var i = 0, len = this.length; i &lt; len; i++){
-        result[i] = this[i] + matrix[i];
-    }
+    result[0] = this[0] + matrix[0];
+    result[1] = this[1] + matrix[1];
+    result[2] = this[2] + matrix[2];
+    result[3] = this[3] + matrix[3];
+    result[4] = this[4] + matrix[4];
+    result[5] = this[5] + matrix[5];
+    result[6] = this[6] + matrix[6];
+    result[7] = this[7] + matrix[7];
+    result[8] = this[8] + matrix[8];
+    result[9] = this[9] + matrix[9];
+    result[10] = this[10] + matrix[10];
+    result[11] = this[11] + matrix[11];
+    result[12] = this[12] + matrix[12];
+    result[13] = this[13] + matrix[13];
+    result[14] = this[14] + matrix[14];
+    result[15] = this[15] + matrix[15];
+    return result;
 };
 /**
  * Subtract matrices. Returns a new Matrix.
@@ -93,11 +108,26 @@ Matrix.prototype.subtract = function(matrix){
  * @method
  * @param {Matrix} matrix
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.subtractLG = function(matrix, result){
-    for (var i = 0, len = this.length; i &lt; len; i++){
-        result[i] = this[i] - matrix[i];
-    }
+    result[0] = this[0] - matrix[0];
+    result[1] = this[1] - matrix[1];
+    result[2] = this[2] - matrix[2];
+    result[3] = this[3] - matrix[3];
+    result[4] = this[4] - matrix[4];
+    result[5] = this[5] - matrix[5];
+    result[6] = this[6] - matrix[6];
+    result[7] = this[7] - matrix[7];
+    result[8] = this[8] - matrix[8];
+    result[9] = this[9] - matrix[9];
+    result[10] = this[10] - matrix[10];
+    result[11] = this[11] - matrix[11];
+    result[12] = this[12] - matrix[12];
+    result[13] = this[13] - matrix[13];
+    result[14] = this[14] - matrix[14];
+    result[15] = this[15] - matrix[15];
+    return result;
 };
 /**
  * Multiply matrix by scalar. Returns a new Matrix.
@@ -117,11 +147,26 @@ Matrix.prototype.multiplyScalar = function(scalar){
  * @method
  * @param {number} scalar
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.multiplyScalarLG = function(scalar, result){
-    for (var i = 0, len = this.length; i &lt; len; i++){
-        result[i] = this[i] * scalar;
-    }
+    result[0] = this[0] * scalar;
+    result[1] = this[1] * scalar;
+    result[2] = this[2] * scalar;
+    result[3] = this[3] * scalar;
+    result[4] = this[4] * scalar;
+    result[5] = this[5] * scalar;
+    result[6] = this[6] * scalar;
+    result[7] = this[7] * scalar;
+    result[8] = this[8] * scalar;
+    result[9] = this[9] * scalar;
+    result[10] = this[10] * scalar;
+    result[11] = this[11] * scalar;
+    result[12] = this[12] * scalar;
+    result[13] = this[13] * scalar;
+    result[14] = this[14] * scalar;
+    result[15] = this[15] * scalar;
+    return result;
 };
 /**
  * Multiply matrices. Returns a new Matrix.
@@ -154,6 +199,7 @@ Matrix.prototype.multiply = function(matrix){
  * @method
  * @param {Matrix} matrix
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.multiplyLG = function(matrix, result){
     result[0] = (this[0] * matrix[0]) + (this[1] * matrix[4]) + (this[2] * matrix[8]) + (this[3] * matrix[12]);
@@ -172,11 +218,11 @@ Matrix.prototype.multiplyLG = function(matrix, result){
     result[13] = (this[12] * matrix[1]) + (this[13] * matrix[5]) + (this[14] * matrix[9]) + (this[15] * matrix[13]);
     result[14] = (this[12] * matrix[2]) + (this[13] * matrix[6]) + (this[14] * matrix[10]) + (this[15] * matrix[14]);
     result[15] = (this[12] * matrix[3]) + (this[13] * matrix[7]) + (this[14] * matrix[11]) + (this[15] * matrix[15]);
+    return result;
 };
 /**
  * Negate matrix. Returns a new Matrix.
  * @method
- * @param {number} scalar
  * @return {Matrix}
  */
 Matrix.prototype.negate = function(){
@@ -189,13 +235,27 @@ Matrix.prototype.negate = function(){
 /**
  * Negate matrix. Result is assigned to result parameter.
  * @method
- * @param {number} scalar
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.negateLG = function(result){
-    for (var i = 0, len = this.length; i &lt; len; i++){
-        result[i] = -this[i];
-    }
+    result[0] = -this[0];
+    result[1] = -this[1];
+    result[2] = -this[2];
+    result[3] = -this[3];
+    result[4] = -this[4];
+    result[5] = -this[5];
+    result[6] = -this[6];
+    result[7] = -this[7];
+    result[8] = -this[8];
+    result[9] = -this[9];
+    result[10] = -this[10];
+    result[11] = -this[11];
+    result[12] = -this[12];
+    result[13] = -this[13];
+    result[14] = -this[14];
+    result[15] = -this[15];
+    return result;
 };
 /**
  * Transpose matrix. Returns a new Matrix.
@@ -225,6 +285,7 @@ Matrix.prototype.transpose = function(){
 /**
  * Transpose matrix. Result is assigned to result parameter.
  * @method
+ * @param {Matrix} result
  * @return {Matrix}
  */
 Matrix.prototype.transposeLG = function(result){
@@ -244,6 +305,7 @@ Matrix.prototype.transposeLG = function(result){
     result[13] = this[7];
     result[14] = this[11];
     result[15] = this[15];
+    return result;
 };
 /**
  * Write zeros to all elements of the matrix.
@@ -264,6 +326,7 @@ Matrix.prototype.copy = function(result) {
     for (var i = 0; i &lt; 16; i++) {
         result[i] = this[i];
     }
+    return result;
 };
 
 
@@ -292,17 +355,28 @@ Matrix.rotationX = function(theta){
  * @static
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationXLG = function(theta, result){
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
-    result.empty();
     result[0] = 1;
+    result[1] = 0;
+    result[2] = 0;
+    result[3] = 0;
+    result[4] = 0;
     result[5] = cos;
     result[6] = -sin;
+    result[7] = 0;
+    result[8] = 0;
     result[9] = sin;
     result[10] = cos;
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix, rotating by theta around the y-axis. Returns a new Matrix.
@@ -329,17 +403,28 @@ Matrix.rotationY = function(theta){
  * @static
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationYLG = function(theta, result){
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
-    result.empty();
     result[0] = cos;
+    result[1] = 0;
     result[2] = sin;
+    result[3] = 0;
+    result[4] = 0;
     result[5] = 1;
+    result[6] = 0;
+    result[7] = 0;
     result[8] = -sin;
+    result[9] = 0;
     result[10] = cos;
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix, rotating by theta around the z-axis. Returns a new Matrix.
@@ -366,17 +451,28 @@ Matrix.rotationZ = function(theta){
  * @static
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationZLG = function(theta, result){
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
-    result.empty();
     result[0] = cos;
     result[1] = -sin;
+    result[2] = 0;
+    result[3] = 0;
     result[4] = sin;
     result[5] = cos;
+    result[6] = 0;
+    result[7] = 0;
+    result[8] = 0;
+    result[9] = 0;
     result[10] = 1;
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix, rotating by theta around the axis. Returns a new Matrix.
@@ -417,6 +513,7 @@ Matrix.rotationAxis = function(axis, theta){
  * @param {Vector} axis
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationAxisLG = function(axis, theta, result){
     axis.normalizeLG(temp_vector);
@@ -429,17 +526,23 @@ Matrix.rotationAxisLG = function(axis, theta, result){
     var xy = ux * uy;
     var xz = ux * uz;
     var yz = uy * uz;
-    result.empty();
     result[0] = cos + ((ux*ux)*cos1);
     result[1] = (xy*cos1) - (uz*sin);
     result[2] = (xz*cos1)+(uy*sin);
+    result[3] = 0;
     result[4] = (xy*cos1)+(uz*sin);
     result[5] = cos+((uy*uy)*cos1);
     result[6] = (yz*cos1)-(ux*sin);
+    result[7] = 0;
     result[8] = (xz*cos1)-(uy*sin);
     result[9] = (yz*cos1)+(ux*sin);
     result[10] = cos + ((uz*uz)*cos1);
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a rotation matrix from pitch, yaw, and roll. Returns a new Matrix.
@@ -461,19 +564,16 @@ Matrix.rotation = function(pitch, yaw, roll){
  * @param {number} yaw
  * @param {number} roll
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationLG = function(pitch, yaw, roll, result){
     // TODO: Can I get away with using fewer temporary matrices?
-    temp_matrix1.empty();
-    temp_matrix2.empty();
-    temp_matrix3.empty();
-    temp_matrix4.empty();
-    result.empty();    
     Matrix.rotationXLG(roll, temp_matrix1);
     Matrix.rotationZLG(yaw, temp_matrix2);
     Matrix.rotationYLG(pitch, temp_matrix3);
     temp_matrix1.multiplyLG(temp_matrix2, temp_matrix4);
     temp_matrix4.multiplyLG(temp_matrix3, result);
+    return result;
 };
 /**
  * Constructs a translation matrix from x, y, and z distances. Returns a new Matrix.
@@ -498,21 +598,34 @@ Matrix.translation = function(xtrans, ytrans, ztrans){
  * @param {number} xtrans
  * @param {number} ytrans
  * @param {number} ztrans
+ * @param {Matrix} result
  * @return {Matrix}
  */
 Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
-    Matrix.identityLG(result);
+    result[0] = 1;
+    result[1] = 0;
+    result[2] = 0;
+    result[3] = 0;
+    result[4] = 0;
+    result[5] = 1;
+    result[6] = 0;
+    result[7] = 0;
+    result[8] = 0;
+    result[9] = 0;
+    result[10] = 1;
     result[12] = xtrans;
     result[13] = ytrans;
     result[14] = ztrans;
+    result[15] = 1;
+    return result;
 };
 /**
  * Constructs a scaling matrix from x, y, and z scale. Returns a new Matrix.
  * @method
  * @static
- * @param {number} xtrans
- * @param {number} ytrans
- * @param {number} ztrans
+ * @param {number} xscale
+ * @param {number} yscale
+ * @param {number} zscale
  * @return {Matrix}
  */
 Matrix.scale = function(xscale, yscale, zscale){
@@ -527,17 +640,30 @@ Matrix.scale = function(xscale, yscale, zscale){
  * Constructs a scaling matrix from x, y, and z scale. Result is assigned to result parameter.
  * @method
  * @static
- * @param {number} xtrans
- * @param {number} ytrans
- * @param {number} ztrans
+ * @param {number} xscale
+ * @param {number} yscale
+ * @param {number} zscale
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.scaleLG = function(xscale, yscale, zscale, result){
-    Matrix.zeroLG(result);
     result[0] = xscale;
+    result[1] = 0;
+    result[2] = 0;
+    result[3] = 0;
+    result[4] = 0;
     result[5] = yscale;
+    result[6] = 0;
+    result[7] = 0;
+    result[8] = 0;
+    result[9] = 0;
     result[10] = zscale;
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs an identity matrix. Returns a new Matrix.
@@ -558,15 +684,26 @@ Matrix.identity = function(){
  * @method
  * @static
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.identityLG = function(result){
-    for (var i = 0; i &lt; 16; i++){
-       result[i] = 0; 
-    }
     result[0] = 1;
+    result[1] = 0;
+    result[2] = 0;
+    result[3] = 0;
+    result[4] = 0;
     result[5] = 1;
+    result[6] = 0;
+    result[7] = 0;
+    result[8] = 0;
+    result[9] = 0;
     result[10] = 1;
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
     result[15] = 1;
+    return result;
 };
 /**
  * Constructs a zero matrix. Returns a new Matrix.
@@ -581,17 +718,33 @@ Matrix.zero = function(){
  * Constructs a zero matrix. Result is assigned to result parameter.
  * @method
  * @static
+ * @param {Matrix} result
  * @return {Matrix}
  */
 Matrix.zeroLG = function(result){
-    for (var i = 0; i &lt; 16; i++){
-       result[i] = 0; 
-    }
+    result[0] = 0;
+    result[1] = 0;
+    result[2] = 0;
+    result[3] = 0;
+    result[4] = 0;
+    result[5] = 0;
+    result[6] = 0;
+    result[7] = 0;
+    result[8] = 0;
+    result[9] = 0;
+    result[10] = 0;
+    result[11] = 0;
+    result[12] = 0;
+    result[13] = 0;
+    result[14] = 0;
+    result[15] = 0;
+    return result;
 };
 /**
  * Constructs a new matrix from an array. Returns a new Matrix.
  * @method
  * @static
+ * @param {Array.&lt;number>} arr
  * @return {Matrix}
  */
 Matrix.fromArray = function(arr){
@@ -605,22 +758,40 @@ Matrix.fromArray = function(arr){
  * Constructs a new matrix from an array. Result is assigned to result parameter.
  * @method
  * @static
+ * @param {Array.&lt;number>} arr
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.fromArrayLG = function(arr, result){
-    for (var i = 0; i &lt; 16; i++){
-        result[i] = arr[i];
-    }
+    result[0] = arr[0];
+    result[1] = arr[1];
+    result[2] = arr[2];
+    result[3] = arr[3];
+    result[4] = arr[4];
+    result[5] = arr[5];
+    result[6] = arr[6];
+    result[7] = arr[7];
+    result[8] = arr[8];
+    result[9] = arr[9];
+    result[10] = arr[10];
+    result[11] = arr[11];
+    result[12] = arr[12];
+    result[13] = arr[13];
+    result[14] = arr[14];
+    result[15] = arr[15];
+    return result;
 };
 /**
  * Copy values from one matrix to another.
- * @param matrix1
- * @param matrix2
+ * @param {Matrix} matrix1
+ * @param {Matrix} matrix2
+ * @return {Matrix}
  */
 Matrix.copy = function(matrix1, matrix2){
     for (var i = 0; i &lt; 16; i++) {
         matrix2[i] = matrix1[i];
     }
+    return matrix2;
 };
 
 var temp_matrix1 = new Matrix();
@@ -646,7 +817,7 @@ module.exports = Matrix;
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Wed Aug 20 2014 10:12:31 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a> on Wed Sep 03 2014 16:44:23 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

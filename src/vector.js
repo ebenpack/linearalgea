@@ -30,6 +30,7 @@ Vector.prototype.add = function(vector){
  * @method
  * @param {Vector} vector
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.addLG = function(vector, result){
     result.x = this.x + vector.x;
@@ -51,6 +52,7 @@ Vector.prototype.subtract = function(vector){
  * @method
  * @param {Vector} vector
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.subtractLG = function(vector, result){
     result.x = this.x - vector.x;
@@ -186,6 +188,7 @@ Vector.prototype.cross = function(vector){
  * @method
  * @param {Vector} vector
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.crossLG = function(vector, result){
     result.x = (this.y * vector.z) - (this.z * vector.y);
@@ -209,6 +212,7 @@ Vector.prototype.normalize = function(){
  * Normalize vector. Result is assigned to result parameter.
  * @method
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.normalizeLG = function(result){
     var magnitude = this.magnitude();
@@ -236,6 +240,7 @@ Vector.prototype.scale = function(scale){
  * @method
  * @param {number} scale
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.scaleLG = function(scale, result){
     result.x = this.x * scale;
@@ -255,6 +260,7 @@ Vector.prototype.negate = function(){
  * Negate vector. Result is assigned to result parameter.
  * @method
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.negateLG = function(result){
     result.x = -this.x;
@@ -266,7 +272,7 @@ Vector.prototype.negateLG = function(result){
  * Calculate vector projection of two vectors.
  * @method
  * @param {Vector} vector
- * @return {number}
+ * @return {Vector}
  */
 Vector.prototype.vectorProjection = function(vector){
     var mag = vector.magnitude();
@@ -276,8 +282,8 @@ Vector.prototype.vectorProjection = function(vector){
  * Calculate vector projection of two vectors. Does not construct any new Vectors in the course of its operation.
  * @method
  * @param {Vector} vector
- * @param {Vector} temp A temporary vector used in one of the intermediary steps of the calculation.
- * @return {number}
+ * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.vectorProjectionLG = function(vector, result){
     var mag = vector.magnitude();
@@ -311,6 +317,7 @@ Vector.prototype.transform = function(transform_matrix){
  * @method
  * @param {Matrix} transform_matrix
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.transformLG = function(transform_matrix, result){
     var x = (this.x * transform_matrix[0]) + (this.y * transform_matrix[4]) + (this.z * transform_matrix[8]) + transform_matrix[12];
@@ -351,6 +358,7 @@ Vector.prototype.rotate = function(axis, theta){
  * @param {Vector} axis
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateLG = function(axis, theta, result){
     axis.normalizeLG(result);
@@ -390,6 +398,7 @@ Vector.prototype.rotateX = function(theta){
  * @method
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateXLG = function(theta, result){
     var sin = Math.sin(theta);
@@ -421,6 +430,7 @@ Vector.prototype.rotateY = function(theta){
  * @method
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateYLG = function(theta, result){
     var sin = Math.sin(theta);
@@ -452,6 +462,7 @@ Vector.prototype.rotateZ = function(theta){
  * @method
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateZLG = function(theta, result){
     var sin = Math.sin(theta);
@@ -467,9 +478,9 @@ Vector.prototype.rotateZLG = function(theta, result){
 /**
  * Rotate vector by pitch, yaw, and roll. Returns a new Vector.
  * @method
- * @param {number} pitch
- * @param {number} yaw
- * @param {number} roll
+ * @param {number} pitch_amnt
+ * @param {number} yaw_amnt
+ * @param {number} roll_amnt
  * @return {Vector}
  */
 Vector.prototype.rotatePitchYawRoll = function(pitch_amnt, yaw_amnt, roll_amnt) {
@@ -478,11 +489,11 @@ Vector.prototype.rotatePitchYawRoll = function(pitch_amnt, yaw_amnt, roll_amnt) 
 /** 
  * Rotate vector by pitch, yaw, and roll. Result is assigned to result parameter.
  * @method
- * @param {number} pitch
- * @param {number} yaw
- * @param {number} roll
- * @param {Vector} temp
+ * @param {number} pitch_amnt
+ * @param {number} yaw_amnt
+ * @param {number} roll_amnt
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotatePitchYawRollLG = function(pitch_amnt, yaw_amnt, roll_amnt, result) {
     this.rotateXLG(roll_amnt, result);

@@ -62,6 +62,7 @@ Matrix.prototype.add = function(matrix){
  * @method
  * @param {Matrix} matrix
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.addLG = function(matrix, result){
     result[0] = this[0] + matrix[0];
@@ -100,6 +101,7 @@ Matrix.prototype.subtract = function(matrix){
  * @method
  * @param {Matrix} matrix
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.subtractLG = function(matrix, result){
     result[0] = this[0] - matrix[0];
@@ -138,6 +140,7 @@ Matrix.prototype.multiplyScalar = function(scalar){
  * @method
  * @param {number} scalar
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.multiplyScalarLG = function(scalar, result){
     result[0] = this[0] * scalar;
@@ -189,6 +192,7 @@ Matrix.prototype.multiply = function(matrix){
  * @method
  * @param {Matrix} matrix
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.multiplyLG = function(matrix, result){
     result[0] = (this[0] * matrix[0]) + (this[1] * matrix[4]) + (this[2] * matrix[8]) + (this[3] * matrix[12]);
@@ -212,7 +216,6 @@ Matrix.prototype.multiplyLG = function(matrix, result){
 /**
  * Negate matrix. Returns a new Matrix.
  * @method
- * @param {number} scalar
  * @return {Matrix}
  */
 Matrix.prototype.negate = function(){
@@ -225,8 +228,8 @@ Matrix.prototype.negate = function(){
 /**
  * Negate matrix. Result is assigned to result parameter.
  * @method
- * @param {number} scalar
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.prototype.negateLG = function(result){
     result[0] = -this[0];
@@ -275,6 +278,7 @@ Matrix.prototype.transpose = function(){
 /**
  * Transpose matrix. Result is assigned to result parameter.
  * @method
+ * @param {Matrix} result
  * @return {Matrix}
  */
 Matrix.prototype.transposeLG = function(result){
@@ -344,6 +348,7 @@ Matrix.rotationX = function(theta){
  * @static
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationXLG = function(theta, result){
     var cos = Math.cos(theta);
@@ -391,6 +396,7 @@ Matrix.rotationY = function(theta){
  * @static
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationYLG = function(theta, result){
     var cos = Math.cos(theta);
@@ -438,6 +444,7 @@ Matrix.rotationZ = function(theta){
  * @static
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationZLG = function(theta, result){
     var cos = Math.cos(theta);
@@ -499,6 +506,7 @@ Matrix.rotationAxis = function(axis, theta){
  * @param {Vector} axis
  * @param {number} theta
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationAxisLG = function(axis, theta, result){
     axis.normalizeLG(temp_vector);
@@ -549,6 +557,7 @@ Matrix.rotation = function(pitch, yaw, roll){
  * @param {number} yaw
  * @param {number} roll
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.rotationLG = function(pitch, yaw, roll, result){
     // TODO: Can I get away with using fewer temporary matrices?
@@ -582,6 +591,7 @@ Matrix.translation = function(xtrans, ytrans, ztrans){
  * @param {number} xtrans
  * @param {number} ytrans
  * @param {number} ztrans
+ * @param {Matrix} result
  * @return {Matrix}
  */
 Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
@@ -606,9 +616,9 @@ Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
  * Constructs a scaling matrix from x, y, and z scale. Returns a new Matrix.
  * @method
  * @static
- * @param {number} xtrans
- * @param {number} ytrans
- * @param {number} ztrans
+ * @param {number} xscale
+ * @param {number} yscale
+ * @param {number} zscale
  * @return {Matrix}
  */
 Matrix.scale = function(xscale, yscale, zscale){
@@ -623,10 +633,11 @@ Matrix.scale = function(xscale, yscale, zscale){
  * Constructs a scaling matrix from x, y, and z scale. Result is assigned to result parameter.
  * @method
  * @static
- * @param {number} xtrans
- * @param {number} ytrans
- * @param {number} ztrans
+ * @param {number} xscale
+ * @param {number} yscale
+ * @param {number} zscale
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.scaleLG = function(xscale, yscale, zscale, result){
     result[0] = xscale;
@@ -666,6 +677,7 @@ Matrix.identity = function(){
  * @method
  * @static
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.identityLG = function(result){
     result[0] = 1;
@@ -699,6 +711,7 @@ Matrix.zero = function(){
  * Constructs a zero matrix. Result is assigned to result parameter.
  * @method
  * @static
+ * @param {Matrix} result
  * @return {Matrix}
  */
 Matrix.zeroLG = function(result){
@@ -724,6 +737,7 @@ Matrix.zeroLG = function(result){
  * Constructs a new matrix from an array. Returns a new Matrix.
  * @method
  * @static
+ * @param {Array.<number>} arr
  * @return {Matrix}
  */
 Matrix.fromArray = function(arr){
@@ -737,7 +751,9 @@ Matrix.fromArray = function(arr){
  * Constructs a new matrix from an array. Result is assigned to result parameter.
  * @method
  * @static
+ * @param {Array.<number>} arr
  * @param {Matrix} result
+ * @return {Matrix}
  */
 Matrix.fromArrayLG = function(arr, result){
     result[0] = arr[0];
@@ -760,8 +776,9 @@ Matrix.fromArrayLG = function(arr, result){
 };
 /**
  * Copy values from one matrix to another.
- * @param matrix1
- * @param matrix2
+ * @param {Matrix} matrix1
+ * @param {Matrix} matrix2
+ * @return {Matrix}
  */
 Matrix.copy = function(matrix1, matrix2){
     for (var i = 0; i < 16; i++) {
@@ -811,6 +828,7 @@ Vector.prototype.add = function(vector){
  * @method
  * @param {Vector} vector
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.addLG = function(vector, result){
     result.x = this.x + vector.x;
@@ -832,6 +850,7 @@ Vector.prototype.subtract = function(vector){
  * @method
  * @param {Vector} vector
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.subtractLG = function(vector, result){
     result.x = this.x - vector.x;
@@ -967,6 +986,7 @@ Vector.prototype.cross = function(vector){
  * @method
  * @param {Vector} vector
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.crossLG = function(vector, result){
     result.x = (this.y * vector.z) - (this.z * vector.y);
@@ -990,6 +1010,7 @@ Vector.prototype.normalize = function(){
  * Normalize vector. Result is assigned to result parameter.
  * @method
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.normalizeLG = function(result){
     var magnitude = this.magnitude();
@@ -1017,6 +1038,7 @@ Vector.prototype.scale = function(scale){
  * @method
  * @param {number} scale
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.scaleLG = function(scale, result){
     result.x = this.x * scale;
@@ -1036,6 +1058,7 @@ Vector.prototype.negate = function(){
  * Negate vector. Result is assigned to result parameter.
  * @method
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.negateLG = function(result){
     result.x = -this.x;
@@ -1047,7 +1070,7 @@ Vector.prototype.negateLG = function(result){
  * Calculate vector projection of two vectors.
  * @method
  * @param {Vector} vector
- * @return {number}
+ * @return {Vector}
  */
 Vector.prototype.vectorProjection = function(vector){
     var mag = vector.magnitude();
@@ -1057,8 +1080,8 @@ Vector.prototype.vectorProjection = function(vector){
  * Calculate vector projection of two vectors. Does not construct any new Vectors in the course of its operation.
  * @method
  * @param {Vector} vector
- * @param {Vector} temp A temporary vector used in one of the intermediary steps of the calculation.
- * @return {number}
+ * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.vectorProjectionLG = function(vector, result){
     var mag = vector.magnitude();
@@ -1092,6 +1115,7 @@ Vector.prototype.transform = function(transform_matrix){
  * @method
  * @param {Matrix} transform_matrix
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.transformLG = function(transform_matrix, result){
     var x = (this.x * transform_matrix[0]) + (this.y * transform_matrix[4]) + (this.z * transform_matrix[8]) + transform_matrix[12];
@@ -1132,6 +1156,7 @@ Vector.prototype.rotate = function(axis, theta){
  * @param {Vector} axis
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateLG = function(axis, theta, result){
     axis.normalizeLG(result);
@@ -1171,6 +1196,7 @@ Vector.prototype.rotateX = function(theta){
  * @method
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateXLG = function(theta, result){
     var sin = Math.sin(theta);
@@ -1202,6 +1228,7 @@ Vector.prototype.rotateY = function(theta){
  * @method
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateYLG = function(theta, result){
     var sin = Math.sin(theta);
@@ -1233,6 +1260,7 @@ Vector.prototype.rotateZ = function(theta){
  * @method
  * @param {number} theta
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotateZLG = function(theta, result){
     var sin = Math.sin(theta);
@@ -1248,9 +1276,9 @@ Vector.prototype.rotateZLG = function(theta, result){
 /**
  * Rotate vector by pitch, yaw, and roll. Returns a new Vector.
  * @method
- * @param {number} pitch
- * @param {number} yaw
- * @param {number} roll
+ * @param {number} pitch_amnt
+ * @param {number} yaw_amnt
+ * @param {number} roll_amnt
  * @return {Vector}
  */
 Vector.prototype.rotatePitchYawRoll = function(pitch_amnt, yaw_amnt, roll_amnt) {
@@ -1259,11 +1287,11 @@ Vector.prototype.rotatePitchYawRoll = function(pitch_amnt, yaw_amnt, roll_amnt) 
 /** 
  * Rotate vector by pitch, yaw, and roll. Result is assigned to result parameter.
  * @method
- * @param {number} pitch
- * @param {number} yaw
- * @param {number} roll
- * @param {Vector} temp
+ * @param {number} pitch_amnt
+ * @param {number} yaw_amnt
+ * @param {number} roll_amnt
  * @param {Vector} result
+ * @return {Vector}
  */
 Vector.prototype.rotatePitchYawRollLG = function(pitch_amnt, yaw_amnt, roll_amnt, result) {
     this.rotateXLG(roll_amnt, result);
