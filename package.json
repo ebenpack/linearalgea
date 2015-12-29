@@ -4,19 +4,15 @@
   "description": "Matrix and vector math library",
   "main": "src/linearalgea.js",
   "scripts": {
-    "minify": "gulp compile",
-    "test": "gulp test"
+    "test": "mocha tests/math/ -R min -u tdd",
+    "docs": "rm -rf docs/; jsdoc src/ -d docs",
+    "lint": "jshint src/"
   },
   "author": "Eben Packwood",
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.6.2",
-    "gulp-browserify": "^0.5.0",
-    "gulp-closure-compiler": "^0.2.1",
-    "gulp-jsdoc": "^0.1.4",
-    "gulp-jshint": "^1.6.1",
-    "gulp-mocha": "^0.5.2",
-    "gulp-mocha-browserify-suite": "^0.1.0",
-    "gulp-rimraf": "^0.1.0"
+    "jsdoc": "^3.4.0",
+    "jshint": "^2.9.1-rc2",
+    "mocha": "^2.3.4"
   }
 }
