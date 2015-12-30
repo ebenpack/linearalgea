@@ -4,21 +4,27 @@ var Vector = require('./vector.js');
  * 4x4 matrix.
  * @constructor
  */
-function Matrix(){
-    for (var i=0; i<16; i++){
+function Matrix() {
+    for (var i = 0; i < 16; i++) {
         this[i] = 0;
     }
     this.length = 16;
 }
+
+var temp_matrix1 = new Matrix();
+var temp_matrix2 = new Matrix();
+var temp_matrix3 = new Matrix();
+var temp_vector = new Vector(0, 0, 0);
+
 /**
  * Compare matrices for equality.
  * @method
  * @param {Matrix} matrix
  * @return {boolean}
  */
-Matrix.prototype.equal = function(matrix){
-    for (var i = 0, len = this.length; i < len; i++){
-        if (this[i] !== matrix[i]){
+Matrix.prototype.equal = function(matrix) {
+    for (var i = 0, len = this.length; i < len; i++) {
+        if (this[i] !== matrix[i]) {
             return false;
         }
     }
@@ -30,9 +36,9 @@ Matrix.prototype.equal = function(matrix){
  * @param {Matrix} matrix
  * @return {Matrix}
  */
-Matrix.prototype.add = function(matrix){
+Matrix.prototype.add = function(matrix) {
     var new_matrix = new Matrix();
-    for (var i = 0, len = this.length; i < len; i++){
+    for (var i = 0, len = this.length; i < len; i++) {
         new_matrix[i] = this[i] + matrix[i];
     }
     return new_matrix;
@@ -44,7 +50,7 @@ Matrix.prototype.add = function(matrix){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.prototype.addLG = function(matrix, result){
+Matrix.prototype.addLG = function(matrix, result) {
     result[0] = this[0] + matrix[0];
     result[1] = this[1] + matrix[1];
     result[2] = this[2] + matrix[2];
@@ -69,9 +75,9 @@ Matrix.prototype.addLG = function(matrix, result){
  * @param {Matrix} matrix
  * @return {Matrix}
  */
-Matrix.prototype.subtract = function(matrix){
+Matrix.prototype.subtract = function(matrix) {
     var new_matrix = new Matrix();
-    for (var i = 0, len = this.length; i < len; i++){
+    for (var i = 0, len = this.length; i < len; i++) {
         new_matrix[i] = this[i] - matrix[i];
     }
     return new_matrix;
@@ -83,7 +89,7 @@ Matrix.prototype.subtract = function(matrix){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.prototype.subtractLG = function(matrix, result){
+Matrix.prototype.subtractLG = function(matrix, result) {
     result[0] = this[0] - matrix[0];
     result[1] = this[1] - matrix[1];
     result[2] = this[2] - matrix[2];
@@ -108,9 +114,9 @@ Matrix.prototype.subtractLG = function(matrix, result){
  * @param {number} scalar
  * @return {Matrix}
  */
-Matrix.prototype.multiplyScalar = function(scalar){
+Matrix.prototype.multiplyScalar = function(scalar) {
     var new_matrix = new Matrix();
-    for (var i = 0, len = this.length; i < len; i++){
+    for (var i = 0, len = this.length; i < len; i++) {
         new_matrix[i] = this[i] * scalar;
     }
     return new_matrix;
@@ -122,7 +128,7 @@ Matrix.prototype.multiplyScalar = function(scalar){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.prototype.multiplyScalarLG = function(scalar, result){
+Matrix.prototype.multiplyScalarLG = function(scalar, result) {
     result[0] = this[0] * scalar;
     result[1] = this[1] * scalar;
     result[2] = this[2] * scalar;
@@ -147,24 +153,104 @@ Matrix.prototype.multiplyScalarLG = function(scalar, result){
  * @param {Matrix} matrix
  * @return {Matrix}
  */
-Matrix.prototype.multiply = function(matrix){
+Matrix.prototype.multiply = function(matrix) {
     var new_matrix = new Matrix();
-    new_matrix[0] = (this[0] * matrix[0]) + (this[1] * matrix[4]) + (this[2] * matrix[8]) + (this[3] * matrix[12]);
-    new_matrix[1] = (this[0] * matrix[1]) + (this[1] * matrix[5]) + (this[2] * matrix[9]) + (this[3] * matrix[13]);
-    new_matrix[2] = (this[0] * matrix[2]) + (this[1] * matrix[6]) + (this[2] * matrix[10]) + (this[3] * matrix[14]);
-    new_matrix[3] = (this[0] * matrix[3]) + (this[1] * matrix[7]) + (this[2] * matrix[11]) + (this[3] * matrix[15]);
-    new_matrix[4] = (this[4] * matrix[0]) + (this[5] * matrix[4]) + (this[6] * matrix[8]) + (this[7] * matrix[12]);
-    new_matrix[5] = (this[4] * matrix[1]) + (this[5] * matrix[5]) + (this[6] * matrix[9]) + (this[7] * matrix[13]);
-    new_matrix[6] = (this[4] * matrix[2]) + (this[5] * matrix[6]) + (this[6] * matrix[10]) + (this[7] * matrix[14]);
-    new_matrix[7] = (this[4] * matrix[3]) + (this[5] * matrix[7]) + (this[6] * matrix[11]) + (this[7] * matrix[15]);
-    new_matrix[8] = (this[8] * matrix[0]) + (this[9] * matrix[4]) + (this[10] * matrix[8]) + (this[11] * matrix[12]);
-    new_matrix[9] = (this[8] * matrix[1]) + (this[9] * matrix[5]) + (this[10] * matrix[9]) + (this[11] * matrix[13]);
-    new_matrix[10] = (this[8] * matrix[2]) + (this[9] * matrix[6]) + (this[10] * matrix[10]) + (this[11] * matrix[14]);
-    new_matrix[11] = (this[8] * matrix[3]) + (this[9] * matrix[7]) + (this[10] * matrix[11]) + (this[11] * matrix[15]);
-    new_matrix[12] = (this[12] * matrix[0]) + (this[13] * matrix[4]) + (this[14] * matrix[8]) + (this[15] * matrix[12]);
-    new_matrix[13] = (this[12] * matrix[1]) + (this[13] * matrix[5]) + (this[14] * matrix[9]) + (this[15] * matrix[13]);
-    new_matrix[14] = (this[12] * matrix[2]) + (this[13] * matrix[6]) + (this[14] * matrix[10]) + (this[15] * matrix[14]);
-    new_matrix[15] = (this[12] * matrix[3]) + (this[13] * matrix[7]) + (this[14] * matrix[11]) + (this[15] * matrix[15]);
+    new_matrix[0] = (
+        (this[0] * matrix[0]) +
+        (this[1] * matrix[4]) +
+        (this[2] * matrix[8]) +
+        (this[3] * matrix[12])
+    );
+    new_matrix[1] = (
+        (this[0] * matrix[1]) +
+        (this[1] * matrix[5]) +
+        (this[2] * matrix[9]) +
+        (this[3] * matrix[13])
+    );
+    new_matrix[2] = (
+        (this[0] * matrix[2]) +
+        (this[1] * matrix[6]) +
+        (this[2] * matrix[10]) +
+        (this[3] * matrix[14])
+    );
+    new_matrix[3] = (
+        (this[0] * matrix[3]) +
+        (this[1] * matrix[7]) +
+        (this[2] * matrix[11]) +
+        (this[3] * matrix[15])
+    );
+    new_matrix[4] = (
+        (this[4] * matrix[0]) +
+        (this[5] * matrix[4]) +
+        (this[6] * matrix[8]) +
+        (this[7] * matrix[12])
+    );
+    new_matrix[5] = (
+        (this[4] * matrix[1]) +
+        (this[5] * matrix[5]) +
+        (this[6] * matrix[9]) +
+        (this[7] * matrix[13])
+    );
+    new_matrix[6] = (
+        (this[4] * matrix[2]) +
+        (this[5] * matrix[6]) +
+        (this[6] * matrix[10]) +
+        (this[7] * matrix[14])
+    );
+    new_matrix[7] = (
+        (this[4] * matrix[3]) +
+        (this[5] * matrix[7]) +
+        (this[6] * matrix[11]) +
+        (this[7] * matrix[15])
+    );
+    new_matrix[8] = (
+        (this[8] * matrix[0]) +
+        (this[9] * matrix[4]) +
+        (this[10] * matrix[8]) +
+        (this[11] * matrix[12])
+    );
+    new_matrix[9] = (
+        (this[8] * matrix[1]) +
+        (this[9] * matrix[5]) +
+        (this[10] * matrix[9]) +
+        (this[11] * matrix[13])
+    );
+    new_matrix[10] = (
+        (this[8] * matrix[2]) +
+        (this[9] * matrix[6]) +
+        (this[10] * matrix[10]) +
+        (this[11] * matrix[14])
+    );
+    new_matrix[11] = (
+        (this[8] * matrix[3]) +
+        (this[9] * matrix[7]) +
+        (this[10] * matrix[11]) +
+        (this[11] * matrix[15])
+    );
+    new_matrix[12] = (
+        (this[12] * matrix[0]) +
+        (this[13] * matrix[4]) +
+        (this[14] * matrix[8]) +
+        (this[15] * matrix[12])
+    );
+    new_matrix[13] = (
+        (this[12] * matrix[1]) +
+        (this[13] * matrix[5]) +
+        (this[14] * matrix[9]) +
+        (this[15] * matrix[13])
+    );
+    new_matrix[14] = (
+        (this[12] * matrix[2]) +
+        (this[13] * matrix[6]) +
+        (this[14] * matrix[10]) +
+        (this[15] * matrix[14])
+    );
+    new_matrix[15] = (
+        (this[12] * matrix[3]) +
+        (this[13] * matrix[7]) +
+        (this[14] * matrix[11]) +
+        (this[15] * matrix[15])
+    );
     return new_matrix;
 };
 /**
@@ -174,23 +260,103 @@ Matrix.prototype.multiply = function(matrix){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.prototype.multiplyLG = function(matrix, result){
-    result[0] = (this[0] * matrix[0]) + (this[1] * matrix[4]) + (this[2] * matrix[8]) + (this[3] * matrix[12]);
-    result[1] = (this[0] * matrix[1]) + (this[1] * matrix[5]) + (this[2] * matrix[9]) + (this[3] * matrix[13]);
-    result[2] = (this[0] * matrix[2]) + (this[1] * matrix[6]) + (this[2] * matrix[10]) + (this[3] * matrix[14]);
-    result[3] = (this[0] * matrix[3]) + (this[1] * matrix[7]) + (this[2] * matrix[11]) + (this[3] * matrix[15]);
-    result[4] = (this[4] * matrix[0]) + (this[5] * matrix[4]) + (this[6] * matrix[8]) + (this[7] * matrix[12]);
-    result[5] = (this[4] * matrix[1]) + (this[5] * matrix[5]) + (this[6] * matrix[9]) + (this[7] * matrix[13]);
-    result[6] = (this[4] * matrix[2]) + (this[5] * matrix[6]) + (this[6] * matrix[10]) + (this[7] * matrix[14]);
-    result[7] = (this[4] * matrix[3]) + (this[5] * matrix[7]) + (this[6] * matrix[11]) + (this[7] * matrix[15]);
-    result[8] = (this[8] * matrix[0]) + (this[9] * matrix[4]) + (this[10] * matrix[8]) + (this[11] * matrix[12]);
-    result[9] = (this[8] * matrix[1]) + (this[9] * matrix[5]) + (this[10] * matrix[9]) + (this[11] * matrix[13]);
-    result[10] = (this[8] * matrix[2]) + (this[9] * matrix[6]) + (this[10] * matrix[10]) + (this[11] * matrix[14]);
-    result[11] = (this[8] * matrix[3]) + (this[9] * matrix[7]) + (this[10] * matrix[11]) + (this[11] * matrix[15]);
-    result[12] = (this[12] * matrix[0]) + (this[13] * matrix[4]) + (this[14] * matrix[8]) + (this[15] * matrix[12]);
-    result[13] = (this[12] * matrix[1]) + (this[13] * matrix[5]) + (this[14] * matrix[9]) + (this[15] * matrix[13]);
-    result[14] = (this[12] * matrix[2]) + (this[13] * matrix[6]) + (this[14] * matrix[10]) + (this[15] * matrix[14]);
-    result[15] = (this[12] * matrix[3]) + (this[13] * matrix[7]) + (this[14] * matrix[11]) + (this[15] * matrix[15]);
+Matrix.prototype.multiplyLG = function(matrix, result) {
+    result[0] = (
+        (this[0] * matrix[0]) +
+        (this[1] * matrix[4]) +
+        (this[2] * matrix[8]) +
+        (this[3] * matrix[12])
+    );
+    result[1] = (
+        (this[0] * matrix[1]) +
+        (this[1] * matrix[5]) +
+        (this[2] * matrix[9]) +
+        (this[3] * matrix[13])
+    );
+    result[2] = (
+        (this[0] * matrix[2]) +
+        (this[1] * matrix[6]) +
+        (this[2] * matrix[10]) +
+        (this[3] * matrix[14])
+    );
+    result[3] = (
+        (this[0] * matrix[3]) +
+        (this[1] * matrix[7]) +
+        (this[2] * matrix[11]) +
+        (this[3] * matrix[15])
+    );
+    result[4] = (
+        (this[4] * matrix[0]) +
+        (this[5] * matrix[4]) +
+        (this[6] * matrix[8]) +
+        (this[7] * matrix[12])
+    );
+    result[5] = (
+        (this[4] * matrix[1]) +
+        (this[5] * matrix[5]) +
+        (this[6] * matrix[9]) +
+        (this[7] * matrix[13])
+    );
+    result[6] = (
+        (this[4] * matrix[2]) +
+        (this[5] * matrix[6]) +
+        (this[6] * matrix[10]) +
+        (this[7] * matrix[14])
+    );
+    result[7] = (
+        (this[4] * matrix[3]) +
+        (this[5] * matrix[7]) +
+        (this[6] * matrix[11]) +
+        (this[7] * matrix[15])
+    );
+    result[8] = (
+        (this[8] * matrix[0]) +
+        (this[9] * matrix[4]) +
+        (this[10] * matrix[8]) +
+        (this[11] * matrix[12])
+    );
+    result[9] = (
+        (this[8] * matrix[1]) +
+        (this[9] * matrix[5]) +
+        (this[10] * matrix[9]) +
+        (this[11] * matrix[13])
+    );
+    result[10] = (
+        (this[8] * matrix[2]) +
+        (this[9] * matrix[6]) +
+        (this[10] * matrix[10]) +
+        (this[11] * matrix[14])
+    );
+    result[11] = (
+        (this[8] * matrix[3]) +
+        (this[9] * matrix[7]) +
+        (this[10] * matrix[11]) +
+        (this[11] * matrix[15])
+    );
+    result[12] = (
+        (this[12] * matrix[0]) +
+        (this[13] * matrix[4]) +
+        (this[14] * matrix[8]) +
+        (this[15] * matrix[12])
+    );
+    result[13] = (
+        (this[12] * matrix[1]) +
+        (this[13] * matrix[5]) +
+        (this[14] * matrix[9]) +
+        (this[15] * matrix[13])
+    );
+    result[14] = (
+        (this[12] * matrix[2]) +
+        (this[13] * matrix[6]) +
+        (this[14] * matrix[10]) +
+        (this[15] * matrix[14])
+    );
+    result[15] = (
+        (this[12] * matrix[3]) +
+        (this[13] * matrix[7]) +
+        (this[14] * matrix[11]) +
+        (this[15] * matrix[15])
+    );
     return result;
 };
 /**
@@ -198,9 +364,9 @@ Matrix.prototype.multiplyLG = function(matrix, result){
  * @method
  * @return {Matrix}
  */
-Matrix.prototype.negate = function(){
+Matrix.prototype.negate = function() {
     var new_matrix = new Matrix();
-    for (var i = 0, len = this.length; i < len; i++){
+    for (var i = 0, len = this.length; i < len; i++) {
         new_matrix[i] = -this[i];
     }
     return new_matrix;
@@ -211,7 +377,7 @@ Matrix.prototype.negate = function(){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.prototype.negateLG = function(result){
+Matrix.prototype.negateLG = function(result) {
     result[0] = -this[0];
     result[1] = -this[1];
     result[2] = -this[2];
@@ -235,7 +401,7 @@ Matrix.prototype.negateLG = function(result){
  * @method
  * @return {Matrix}
  */
-Matrix.prototype.transpose = function(){
+Matrix.prototype.transpose = function() {
     var new_matrix = new Matrix();
     new_matrix[0] = this[0];
     new_matrix[1] = this[4];
@@ -261,7 +427,7 @@ Matrix.prototype.transpose = function(){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.prototype.transposeLG = function(result){
+Matrix.prototype.transposeLG = function(result) {
     result[0] = this[0];
     result[1] = this[4];
     result[2] = this[8];
@@ -284,8 +450,8 @@ Matrix.prototype.transposeLG = function(result){
  * Write zeros to all elements of the matrix.
  * @method
  */
-Matrix.prototype.empty = function(){
-    for (var i = 0, len = this.length; i < len; i++){
+Matrix.prototype.empty = function() {
+    for (var i = 0, len = this.length; i < len; i++) {
         this[i] = 0;
     }
 };
@@ -304,13 +470,14 @@ Matrix.prototype.copy = function(result) {
 
 
 /**
- * Constructs a rotation matrix, rotating by theta around the x-axis. Returns a new Matrix.
+ * Constructs a rotation matrix, rotating by theta around the x-axis.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {number} theta
  * @return {Matrix}
  */
-Matrix.rotationX = function(theta){
+Matrix.rotationX = function(theta) {
     var rotation_matrix = new Matrix();
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
@@ -323,14 +490,15 @@ Matrix.rotationX = function(theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the x-axis. Result is assigned to result parameter.
+ * Constructs a rotation matrix, rotating by theta around the x-axis.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {number} theta
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.rotationXLG = function(theta, result){
+Matrix.rotationXLG = function(theta, result) {
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
     result[0] = 1;
@@ -352,13 +520,14 @@ Matrix.rotationXLG = function(theta, result){
     return result;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the y-axis. Returns a new Matrix.
+ * Constructs a rotation matrix, rotating by theta around the y-axis.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {number} theta
  * @return {Matrix}
  */
-Matrix.rotationY = function(theta){
+Matrix.rotationY = function(theta) {
     var rotation_matrix = new Matrix();
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
@@ -371,14 +540,15 @@ Matrix.rotationY = function(theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the y-axis. Result is assigned to result parameter.
+ * Constructs a rotation matrix, rotating by theta around the y-axis.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {number} theta
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.rotationYLG = function(theta, result){
+Matrix.rotationYLG = function(theta, result) {
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
     result[0] = cos;
@@ -400,13 +570,14 @@ Matrix.rotationYLG = function(theta, result){
     return result;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the z-axis. Returns a new Matrix.
+ * Constructs a rotation matrix, rotating by theta around the z-axis.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {number} theta
  * @return {Matrix}
  */
-Matrix.rotationZ = function(theta){
+Matrix.rotationZ = function(theta) {
     var rotation_matrix = new Matrix();
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
@@ -419,14 +590,15 @@ Matrix.rotationZ = function(theta){
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the z-axis. Result is assigned to result parameter.
+ * Constructs a rotation matrix, rotating by theta around the z-axis.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {number} theta
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.rotationZLG = function(theta, result){
+Matrix.rotationZLG = function(theta, result) {
     var cos = Math.cos(theta);
     var sin = Math.sin(theta);
     result[0] = cos;
@@ -448,39 +620,41 @@ Matrix.rotationZLG = function(theta, result){
     return result;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the axis. Returns a new Matrix.
+ * Constructs a rotation matrix, rotating by theta around the axis.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {Vector} axis
  * @param {number} theta
  * @return {Matrix}
  */
-Matrix.rotationAxis = function(axis, theta){
+Matrix.rotationAxis = function(axis, theta) {
     var rotation_matrix = new Matrix();
     var u = axis.normalize();
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
-    var cos1 = 1-cos;
+    var cos1 = 1 - cos;
     var ux = u.x;
     var uy = u.y;
     var uz = u.z;
     var xy = ux * uy;
     var xz = ux * uz;
     var yz = uy * uz;
-    rotation_matrix[0] = cos + ((ux*ux)*cos1);
-    rotation_matrix[1] = (xy*cos1) - (uz*sin);
-    rotation_matrix[2] = (xz*cos1)+(uy*sin);
-    rotation_matrix[4] = (xy*cos1)+(uz*sin);
-    rotation_matrix[5] = cos+((uy*uy)*cos1);
-    rotation_matrix[6] = (yz*cos1)-(ux*sin);
-    rotation_matrix[8] = (xz*cos1)-(uy*sin);
-    rotation_matrix[9] = (yz*cos1)+(ux*sin);
-    rotation_matrix[10] = cos + ((uz*uz)*cos1);
+    rotation_matrix[0] = cos + ((ux * ux) * cos1);
+    rotation_matrix[1] = (xy * cos1) - (uz * sin);
+    rotation_matrix[2] = (xz * cos1) + (uy * sin);
+    rotation_matrix[4] = (xy * cos1) + (uz * sin);
+    rotation_matrix[5] = cos + ((uy * uy) * cos1);
+    rotation_matrix[6] = (yz * cos1) - (ux * sin);
+    rotation_matrix[8] = (xz * cos1) - (uy * sin);
+    rotation_matrix[9] = (yz * cos1) + (ux * sin);
+    rotation_matrix[10] = cos + ((uz * uz) * cos1);
     rotation_matrix[15] = 1;
     return rotation_matrix;
 };
 /**
- * Constructs a rotation matrix, rotating by theta around the axis. Result is assigned to result parameter.
+ * Constructs a rotation matrix, rotating by theta around the axis.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {Vector} axis
@@ -488,28 +662,28 @@ Matrix.rotationAxis = function(axis, theta){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.rotationAxisLG = function(axis, theta, result){
+Matrix.rotationAxisLG = function(axis, theta, result) {
     axis.normalizeLG(temp_vector);
     var sin = Math.sin(theta);
     var cos = Math.cos(theta);
-    var cos1 = 1-cos;
+    var cos1 = 1 - cos;
     var ux = temp_vector.x;
     var uy = temp_vector.y;
     var uz = temp_vector.z;
     var xy = ux * uy;
     var xz = ux * uz;
     var yz = uy * uz;
-    result[0] = cos + ((ux*ux)*cos1);
-    result[1] = (xy*cos1) - (uz*sin);
-    result[2] = (xz*cos1)+(uy*sin);
+    result[0] = cos + ((ux * ux) * cos1);
+    result[1] = (xy * cos1) - (uz * sin);
+    result[2] = (xz * cos1) + (uy * sin);
     result[3] = 0;
-    result[4] = (xy*cos1)+(uz*sin);
-    result[5] = cos+((uy*uy)*cos1);
-    result[6] = (yz*cos1)-(ux*sin);
+    result[4] = (xy * cos1) + (uz * sin);
+    result[5] = cos + ((uy * uy) * cos1);
+    result[6] = (yz * cos1) - (ux * sin);
     result[7] = 0;
-    result[8] = (xz*cos1)-(uy*sin);
-    result[9] = (yz*cos1)+(ux*sin);
-    result[10] = cos + ((uz*uz)*cos1);
+    result[8] = (xz * cos1) - (uy * sin);
+    result[9] = (yz * cos1) + (ux * sin);
+    result[10] = cos + ((uz * uz) * cos1);
     result[11] = 0;
     result[12] = 0;
     result[13] = 0;
@@ -518,7 +692,8 @@ Matrix.rotationAxisLG = function(axis, theta, result){
     return result;
 };
 /**
- * Constructs a rotation matrix from pitch, yaw, and roll. Returns a new Matrix.
+ * Constructs a rotation matrix from pitch, yaw, and roll.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {number} pitch
@@ -526,11 +701,16 @@ Matrix.rotationAxisLG = function(axis, theta, result){
  * @param {number} roll
  * @return {Matrix}
  */
-Matrix.rotation = function(pitch, yaw, roll){
-    return Matrix.rotationX(roll).multiply(Matrix.rotationZ(yaw)).multiply(Matrix.rotationY(pitch));
+Matrix.rotation = function(pitch, yaw, roll) {
+    return (
+        Matrix.rotationX(roll)
+        .multiply(Matrix.rotationZ(yaw))
+        .multiply(Matrix.rotationY(pitch))
+    );
 };
 /**
- * Constructs a rotation matrix from pitch, yaw, and roll. Result is assigned to result parameter.
+ * Constructs a rotation matrix from pitch, yaw, and roll.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {number} pitch
@@ -539,17 +719,17 @@ Matrix.rotation = function(pitch, yaw, roll){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.rotationLG = function(pitch, yaw, roll, result){
-    // TODO: Can I get away with using fewer temporary matrices?
+Matrix.rotationLG = function(pitch, yaw, roll, result) {
     Matrix.rotationXLG(roll, temp_matrix1);
     Matrix.rotationZLG(yaw, temp_matrix2);
-    Matrix.rotationYLG(pitch, temp_matrix3);
-    temp_matrix1.multiplyLG(temp_matrix2, temp_matrix4);
-    temp_matrix4.multiplyLG(temp_matrix3, result);
+    temp_matrix1.multiplyLG(temp_matrix2, temp_matrix3);
+    Matrix.rotationYLG(pitch, temp_matrix2);
+    temp_matrix3.multiplyLG(temp_matrix2, result);
     return result;
 };
 /**
- * Constructs a translation matrix from x, y, and z distances. Returns a new Matrix.
+ * Constructs a translation matrix from x, y, and z distances.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {number} xtrans
@@ -557,7 +737,7 @@ Matrix.rotationLG = function(pitch, yaw, roll, result){
  * @param {number} ztrans
  * @return {Matrix}
  */
-Matrix.translation = function(xtrans, ytrans, ztrans){
+Matrix.translation = function(xtrans, ytrans, ztrans) {
     var translation_matrix = Matrix.identity();
     translation_matrix[12] = xtrans;
     translation_matrix[13] = ytrans;
@@ -565,7 +745,8 @@ Matrix.translation = function(xtrans, ytrans, ztrans){
     return translation_matrix;
 };
 /**
- * Constructs a translation matrix from x, y, and z distances. Result is assigned to result parameter.
+ * Constructs a translation matrix from x, y, and z distances.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {number} xtrans
@@ -574,7 +755,7 @@ Matrix.translation = function(xtrans, ytrans, ztrans){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
+Matrix.translationLG = function(xtrans, ytrans, ztrans, result) {
     result[0] = 1;
     result[1] = 0;
     result[2] = 0;
@@ -593,7 +774,8 @@ Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
     return result;
 };
 /**
- * Constructs a scaling matrix from x, y, and z scale. Returns a new Matrix.
+ * Constructs a scaling matrix from x, y, and z scale.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {number} xscale
@@ -601,7 +783,7 @@ Matrix.translationLG = function(xtrans, ytrans, ztrans, result){
  * @param {number} zscale
  * @return {Matrix}
  */
-Matrix.scale = function(xscale, yscale, zscale){
+Matrix.scale = function(xscale, yscale, zscale) {
     var scaling_matrix = new Matrix();
     scaling_matrix[0] = xscale;
     scaling_matrix[5] = yscale;
@@ -610,7 +792,8 @@ Matrix.scale = function(xscale, yscale, zscale){
     return scaling_matrix;
 };
 /**
- * Constructs a scaling matrix from x, y, and z scale. Result is assigned to result parameter.
+ * Constructs a scaling matrix from x, y, and z scale.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {number} xscale
@@ -619,7 +802,7 @@ Matrix.scale = function(xscale, yscale, zscale){
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.scaleLG = function(xscale, yscale, zscale, result){
+Matrix.scaleLG = function(xscale, yscale, zscale, result) {
     result[0] = xscale;
     result[1] = 0;
     result[2] = 0;
@@ -644,7 +827,7 @@ Matrix.scaleLG = function(xscale, yscale, zscale, result){
  * @static
  * @return {Matrix}
  */
-Matrix.identity = function(){
+Matrix.identity = function() {
     var identity = new Matrix();
     identity[0] = 1;
     identity[5] = 1;
@@ -653,13 +836,14 @@ Matrix.identity = function(){
     return identity;
 };
 /**
- * Constructs an identity matrix. Result is assigned to result parameter.
+ * Constructs an identity matrix.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.identityLG = function(result){
+Matrix.identityLG = function(result) {
     result[0] = 1;
     result[1] = 0;
     result[2] = 0;
@@ -684,17 +868,18 @@ Matrix.identityLG = function(result){
  * @static
  * @return {Matrix}
  */
-Matrix.zero = function(){
+Matrix.zero = function() {
     return new Matrix();
 };
 /**
- * Constructs a zero matrix. Result is assigned to result parameter.
+ * Constructs a zero matrix.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.zeroLG = function(result){
+Matrix.zeroLG = function(result) {
     result[0] = 0;
     result[1] = 0;
     result[2] = 0;
@@ -714,28 +899,30 @@ Matrix.zeroLG = function(result){
     return result;
 };
 /**
- * Constructs a new matrix from an array. Returns a new Matrix.
+ * Constructs a new matrix from an array.
+ * Returns a new Matrix.
  * @method
  * @static
  * @param {Array.<number>} arr
  * @return {Matrix}
  */
-Matrix.fromArray = function(arr){
+Matrix.fromArray = function(arr) {
     var new_matrix = new Matrix();
-    for (var i = 0; i < 16; i++){
+    for (var i = 0; i < 16; i++) {
         new_matrix[i] = arr[i];
     }
     return new_matrix;
 };
 /**
- * Constructs a new matrix from an array. Result is assigned to result parameter.
+ * Constructs a new matrix from an array.
+ * Result is assigned to result parameter.
  * @method
  * @static
  * @param {Array.<number>} arr
  * @param {Matrix} result
  * @return {Matrix}
  */
-Matrix.fromArrayLG = function(arr, result){
+Matrix.fromArrayLG = function(arr, result) {
     result[0] = arr[0];
     result[1] = arr[1];
     result[2] = arr[2];
@@ -760,17 +947,11 @@ Matrix.fromArrayLG = function(arr, result){
  * @param {Matrix} matrix2
  * @return {Matrix}
  */
-Matrix.copy = function(matrix1, matrix2){
+Matrix.copy = function(matrix1, matrix2) {
     for (var i = 0; i < 16; i++) {
         matrix2[i] = matrix1[i];
     }
     return matrix2;
 };
-
-var temp_matrix1 = new Matrix();
-var temp_matrix2 = new Matrix();
-var temp_matrix3 = new Matrix();
-var temp_matrix4 = new Matrix();
-var temp_vector = new Vector(0,0,0);
 
 module.exports = Matrix;
